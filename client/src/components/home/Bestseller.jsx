@@ -1,4 +1,21 @@
 import React from 'react';
+import RoundPhotoProductCard from '../shared/RoundPhotoProductCard.jsx';
+import SquarePhotoProductCard from '../shared/SquarePhotoProductCard.jsx';
+
+// 1. Tạo dữ liệu mẫu
+const roundPhotoProducts = [
+    { id: 'b1', imgSrc: 'img/best-product-1.jpg', name: 'Organic Tomato', price: '3.12 $' },
+    { id: 'b2', imgSrc: 'img/best-product-2.jpg', name: 'Organic Tomato', price: '3.12 $' },
+    { id: 'b3', imgSrc: 'img/best-product-3.jpg', name: 'Organic Tomato', price: '3.12 $' },
+];
+
+const squarePhotoProducts = [
+    { id: 's1', imgSrc: 'img/fruite-item-1.jpg', name: 'Organic Tomato', price: '3.12 $' },
+    { id: 's2', imgSrc: 'img/fruite-item-2.jpg', name: 'Organic Tomato', price: '3.12 $' },
+    { id: 's3', imgSrc: 'img/fruite-item-3.jpg', name: 'Organic Tomato', price: '3.12 $' },
+    { id: 's4', imgSrc: 'img/fruite-item-4.jpg', name: 'Organic Tomato', price: '3.12 $' }
+];
+
 
 const Bestseller = () => {
     return (
@@ -6,73 +23,31 @@ const Bestseller = () => {
             <div className="container py-5">
                 <div className="text-center mx-auto mb-5" style={{maxWidth: '700px'}}>
                     <h1 className="display-4">Bestseller Products</h1>
-                    <p>Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable.</p>
+                    <p>Discover our most popular products, loved by customers for their exceptional quality and unbeatable freshness. Each item is carefully selected to ensure it meets the highest standards — perfect for your everyday needs or special occasions. Shop now and experience the best of what we offer.</p>
                 </div>
+                
                 <div className="row g-4">
-                    <div className="col-lg-6 col-xl-4">
-                        <div className="p-4 rounded bg-light">
-                            <div className="row align-items-center">
-                                <div className="col-6">
-                                    <img src="img/best-product-1.jpg" className="img-fluid rounded-circle w-100" alt="" />
-                                </div>
-                                <div className="col-6">
-                                    <a href="#" className="h5">Organic Tomato</a>
-                                    <div className="d-flex my-3">
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star"></i>
-                                    </div>
-                                    <h4 className="mb-3">3.12 $</h4>
-                                    <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
+                    
+                    {roundPhotoProducts.map(product => (
+                        <div key={product.id} className="col-lg-6 col-xl-4">
+                            <RoundPhotoProductCard 
+                                imgSrc={product.imgSrc}
+                                name={product.name}
+                                price={product.price}
+                            />
                         </div>
-                    </div>
-                    {/* ... other bestseller items */}
-                    <div className="col-lg-6 col-xl-4">
-                        <div className="p-4 rounded bg-light">
-                            <div className="row align-items-center">
-                                <div className="col-6">
-                                    <img src="img/best-product-2.jpg" className="img-fluid rounded-circle w-100" alt="" />
-                                </div>
-                                <div className="col-6">
-                                    <a href="#" className="h5">Organic Tomato</a>
-                                    <div className="d-flex my-3">
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star"></i>
-                                    </div>
-                                    <h4 className="mb-3">3.12 $</h4>
-                                    <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
+                    ))}
+
+                    {squarePhotoProducts.map(product => (
+                        <div key={product.id} className="col-md-6 col-lg-6 col-xl-3">
+                            <SquarePhotoProductCard 
+                                imgSrc={product.imgSrc}
+                                name={product.name}
+                                price={product.price}
+                            />
                         </div>
-                    </div>
-                    <div className="col-lg-6 col-xl-4">
-                        <div className="p-4 rounded bg-light">
-                            <div className="row align-items-center">
-                                <div className="col-6">
-                                    <img src="img/best-product-3.jpg" className="img-fluid rounded-circle w-100" alt="" />
-                                </div>
-                                <div className="col-6">
-                                    <a href="#" className="h5">Organic Tomato</a>
-                                    <div className="d-flex my-3">
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star text-primary"></i>
-                                        <i className="fas fa-star"></i>
-                                    </div>
-                                    <h4 className="mb-3">3.12 $</h4>
-                                    <a href="#" className="btn border border-secondary rounded-pill px-3 text-primary"><i className="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    ))}
+                    
                 </div>
             </div>
         </div>
