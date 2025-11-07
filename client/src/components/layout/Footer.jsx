@@ -6,7 +6,7 @@ const Footer = () => {
             {/* Footer Start */}
             <div className="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
                 <div className="container py-5">
-                    <div className="pb-4 mb-4" style={{borderBottom: '1px solid rgba(226, 175, 24, 0.5)'}}>
+                    <div className="pb-4 mb-4" style={{ borderBottom: '1px solid rgba(226, 175, 24, 0.5)' }}>
                         <div className="row g-4">
                             <div className="col-lg-3">
                                 <a href="#">
@@ -17,7 +17,7 @@ const Footer = () => {
                             <div className="col-lg-6">
                                 <div className="position-relative mx-auto">
                                     <input className="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email" />
-                                    <button type="submit" className="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style={{top: '0', right: '0'}}>Subscribe Now</button>
+                                    <button type="submit" className="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style={{ top: '0', right: '0' }}>Subscribe Now</button>
                                 </div>
                             </div>
                             <div className="col-lg-3">
@@ -78,13 +78,8 @@ const Footer = () => {
             {/* Copyright Start */}
             <div className="container-fluid copyright bg-dark py-4">
                 <div className="container">
-                    <div className="row">
-                        <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            <span className="text-light"><a href="#"><i className="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
-                        </div>
-                        <div className="col-md-6 my-auto text-center text-md-end text-white">
-                            Designed By <a className="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a className="border-bottom" href="https://themewagon.com">ThemeWagon</a>
-                        </div>
+                    <div className="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <span className="text-light"><a href="#"><i className="fas fa-copyright text-light me-2"></i>Cosmetics Sales</a>, All right reserved.</span>
                     </div>
                 </div>
             </div>

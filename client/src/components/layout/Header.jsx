@@ -38,8 +38,8 @@ const Header = () => {
             <div className={topbarClasses}>
                 <div className="d-flex justify-content-between">
                     <div className="top-info ps-2">
-                        <small className="me-3"><i className="fas fa-map-marker-alt me-2 text-secondary"></i> <Link to="/" className="text-white">123 Street, New York</Link></small>
-                        <small className="me-3"><i className="fas fa-envelope me-2 text-secondary"></i><Link to="/" className="text-white">Email@Example.com</Link></small>
+                        <small className="me-3"><i className="fas fa-map-marker-alt me-2 text-secondary"></i> <Link to="/tdtu.edu.vn" className="text-white">Ton Duc Thang University</Link></small>
+                        <small className="me-3"><i className="fas fa-envelope me-2 text-secondary"></i><Link to="/tdtu.edu.vn" className="text-white">tdtu.edu.vn</Link></small>
                     </div>
                     <div className="top-link pe-2">
                         <Link to="/" className="text-white"><small className="text-white mx-2">Privacy Policy</small>/</Link>
