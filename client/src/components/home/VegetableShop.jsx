@@ -21,7 +21,7 @@ const VegetableShop = () => {
     return (
         <div className="container-fluid vesitable py-5">
             <div className="container py-5">
-                <h1 className="mb-4">Fresh Organic Vegetables</h1>
+                <h1 className="mb-4">New Products</h1>
                 <Swiper
                     modules={[Navigation, Autoplay]}
                     autoplay={{

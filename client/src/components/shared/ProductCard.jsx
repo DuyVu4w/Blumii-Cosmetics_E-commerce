@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const ProductCard = ({ imgSrc, category, name, description, price }) => {
-    // Component này KHÔNG chứa các lớp "col-*"
-    // Chúng được thêm vào ở component cha (FruitsShop.jsx hoặc ShopPage.jsx)
     return (
         <div className="rounded position-relative fruite-item h-100">
             <div className="fruite-img">

@@ -8,12 +8,10 @@ import VegetableShop from '../../components/home/VegetableShop.jsx';
 import Banner from '../../components/home/Banner.jsx';
 import Bestseller from '../../components/home/Bestseller.jsx';
 import Facts from '../../components/home/Facts.jsx';
-import Testimonials from '../../components/home/Testimonials.jsx';
 
 const HomePage = () => {
   return (
     <>
-      {/* Đây là toàn bộ nội dung của trang chủ */}
       <Hero />
       <Features />
       <FruitsShop />
@@ -22,7 +20,6 @@ const HomePage = () => {
       <Banner />
       <Bestseller />
       <Facts />
-      <Testimonials />
     </>
   );
 };
