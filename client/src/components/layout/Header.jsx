@@ -1,45 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom'; // Đảm bảo NavLink được import
+import { Link, NavLink } from 'react-router-dom'; 
 
 const Header = () => {
     // State cho Navbar (mobile) và Modal (search)
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+    // State để theo dõi trạng thái cuộn
     const [isScrolled, setIsScrolled] = useState(false);
 
+    // Xử lý mở/đóng Navbar (cho mobile)
     const toggleNavbar = () => setIsNavbarOpen(!isNavbarOpen);
+
+    // Xử lý Modal
     const openSearchModal = () => setIsSearchModalOpen(true);
     const closeSearchModal = () => setIsSearchModalOpen(false);
 
+    // useEffect để lắng nghe sự kiện cuộn (scroll)
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
         };
         window.addEventListener('scroll', handleScroll);
+        // Gỡ bỏ sự kiện khi component bị unmount
         return () => window.removeEventListener('scroll', handleScroll);
     }, []); 
 
+    // Tính toán class cho Navbar (dựa trên state isNavbarOpen)
     const navbarClasses = `collapse navbar-collapse bg-white ${isNavbarOpen ? 'show' : ''}`;
+    
+    // Tính toán thuộc tính cho Modal (dựa trên state isSearchModalOpen)
     const modalStyle = isSearchModalOpen ? { display: 'block', paddingRight: '17px' } : { display: 'none' };
     const modalAria = isSearchModalOpen ? 'true' : 'false';
+
+    // Tính toán class cho Topbar (dựa trên CSS tùy chỉnh và state isScrolled)
     const topbarClasses = `container topbar bg-primary ${isScrolled ? 'topbar-hidden' : ''}`;
 
-    /**
-     * 🆕 SỬA LỖI: Hàm xác định class cho NavLink.
-     * React Router v6 yêu cầu dùng một hàm để gán class 'active'.
-     */
-    const getNavLinkClass = ({ isActive }) => {
-        return `nav-item nav-link ${isActive ? 'active' : ''}`;
-    };
+    // Hàm xử lý class cho NavLink (để đổi màu khi active)
+    const getNavLinkClass = ({ isActive }) => 
+        `nav-item nav-link ${isActive ? 'active' : ''}`;
 
     return (
         <>
-            {/* Topbar Start: */}
+            {/* Topbar Start: Sử dụng 'topbarClasses' mới */}
             <div className={topbarClasses}>
                 <div className="d-flex justify-content-between">
                     <div className="top-info ps-2">
-                        <small className="me-3"><i className="fas fa-map-marker-alt me-2 text-secondary"></i> <Link to="/tdtu.edu.vn" className="text-white">Ton Duc Thang University</Link></small>
-                        <small className="me-3"><i className="fas fa-envelope me-2 text-secondary"></i><Link to="/tdtu.edu.vn" className="text-white">tdtu.edu.vn</Link></small>
+                        <small className="me-3"><i className="fas fa-map-marker-alt me-2 text-secondary"></i> <Link to="/" className="text-white">123 Street, New York</Link></small>
+                        <small className="me-3"><i className="fas fa-envelope me-2 text-secondary"></i><Link to="/" className="text-white">Email@Example.com</Link></small>
                     </div>
                     <div className="top-link pe-2">
                         <Link to="/" className="text-white"><small className="text-white mx-2">Privacy Policy</small>/</Link>
@@ -61,12 +69,13 @@ const Header = () => {
                     
                     <div className={navbarClasses} id="navbarCollapse">
                         <div className="navbar-nav mx-auto">
-                            {/* 🆕 SỬA LỖI: Áp dụng hàm getNavLinkClass */}
                             <NavLink to="/" end className={getNavLinkClass}>Home</NavLink>
                             <NavLink to="/shop" className={getNavLinkClass}>Shop</NavLink>
                             <NavLink to="/shop-detail" className={getNavLinkClass}>Shop Detail</NavLink>
                             <div className="nav-item dropdown">
-                                <Link to="#" className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">Pages</Link>
+                                {/* Sử dụng <a> cho dropdown toggle (vì Bootstrap JS gốc có thể vẫn xử lý nó)
+                                    Hoặc chúng ta có thể thêm logic state riêng cho dropdown */}
+                                <a href="#" className="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">Pages</a>
                                 <div className="dropdown-menu m-0 bg-secondary rounded-0">
                                     <Link to="/cart" className="dropdown-item">Cart</Link>
                                     <Link to="/checkout" className="dropdown-item">Checkout</Link>
@@ -84,7 +93,7 @@ const Header = () => {
                                 <i className="fa fa-shopping-bag fa-2x"></i>
                                 <span className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style={{ top: '-5px', left: '15px', height: '20px', minWidth: '20px' }}>3</span>
                             </Link>
-                            <Link to="/login" className="my-auto">
+                            <Link to="/auth" className="my-auto"> {/* Đổi thành /auth hoặc /login */}
                                 <i className="fas fa-user fa-2x"></i>
                             </Link>
                         </div>
