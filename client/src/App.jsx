@@ -10,6 +10,7 @@ import HomePage from './pages/public/HomePage.jsx';
 import ShopPage from './pages/public/ShopPage.jsx';
 import AuthPage from './pages/public/AuthPage.jsx';
 import NotFoundPage from './pages/public/NotFoundPage.jsx';
+import ShopDetailPage from './pages/public/ShopDetailPage.jsx';
 
 function App() {
   // Toàn bộ logic (useState, useEffect) đã được chuyển sang PublicLayout
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<HomePage />} />
           <Route path='shop' element={<ShopPage />} />
+          <Route path='shop-detail' element={<ShopDetailPage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Route>
 

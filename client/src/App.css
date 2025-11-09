@@ -97,3 +97,26 @@
 .vegetable-carousel-react {
     padding: 0 10px;
 }
+
+.swiper-product-wrapper .container.py-5 {
+    position: relative;
+}
+
+/* 2. Ghi đè các nút (ĐÃ THÊM VIỀN) */
+.swiper-product-wrapper .btn-custom-nav {
+    color: var(--bs-primary);
+    padding: 5px 20px;
+    border-radius: 20px;
+    transition: 0.5s;
+    background-color: #fff; 
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 1px solid var(--bs-secondary); 
+}
+
+/* 3. Hiệu ứng Hover */
+.swiper-product-wrapper .btn-custom-nav:hover {
+    background: var(--bs-secondary);
+    color: var(--bs-white);
+}
