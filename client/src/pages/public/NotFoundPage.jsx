@@ -1,0 +1,41 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const NotFoundPage = () => {
+    return (
+        <>
+            {/* Single Page Header start */}
+            <div className="container-fluid page-header py-5">
+                <h1 className="text-center text-white display-6">404 Error</h1>
+                <ol className="breadcrumb justify-content-center mb-0">
+                    <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                    <li className="breadcrumb-item"><Link to="#">Pages</Link></li>
+                    <li className="breadcrumb-item active text-white">404</li>
+                </ol>
+            </div>
+            {/* Single Page Header End */}
+
+            {/* 404 Start */}
+            <div className="container-fluid py-5" style={{ minHeight: '50vh' }}> {/* Thêm minHeight để đẩy footer xuống */}
+                <div className="container py-5 text-center">
+                    <div className="row justify-content-center">
+                        <div className="col-lg-6">
+                            <i className="bi bi-exclamation-triangle display-1 text-secondary"></i>
+                            <h1 className="display-1">404</h1>
+                            <h1 className="mb-4">Page Not Found</h1>
+                            <p className="mb-4">We’re sorry, the page you have looked for does not exist in our website! Maybe go to our home page or try to use a search?</p>
+
+                            {/* Thay thế 'a' bằng 'Link' của React Router */}
+                            <Link className="btn border-secondary rounded-pill py-3 px-5" to="/">
+                                Go Back To Home
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* 404 End */}
+        </>
+    );
+};
+
+export default NotFoundPage;

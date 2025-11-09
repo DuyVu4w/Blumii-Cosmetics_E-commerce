@@ -28,7 +28,7 @@ const Footer = () => {
                         <div className="col-lg-3 col-md-6">
                             <div className="footer-item">
                                 <h4 className="text-light mb-3">Why People Like us!</h4>
-                                <p className="mb-4">We’re trusted by thousands for our commitment to quality, reliability, and customer satisfaction. From seamless service to premium products, we deliver experiences that keep people coming back. Discover what makes us a favorite among our customers.</p>
+                                <p className="mb-4">We're trusted by thousands for our commitment to quality, reliability, and customer satisfaction. From seamless service to premium products, we deliver experiences that keep people coming back. Discover what makes us a favorite among our customers.</p>
                                 <a href="" className="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a>
                             </div>
                         </div>
