@@ -73,8 +73,8 @@ const AuthStyles = () => (
         
         .auth-wrapper button {
             border-radius: 20px;
-            border: 1px solid #FF4B2B;
-            background-color: #FF4B2B;
+            border: 1px solid #81c408;
+            background-color: #81c408;
             color: #FFFFFF;
             font-size: 12px;
             font-weight: bold;
@@ -188,9 +188,9 @@ const AuthStyles = () => (
         }
         
         .auth-wrapper .overlay {
-            background: #FF416C;
-            background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-            background: linear-gradient(to right, #FF4B2B, #FF416C);
+            background: #81c408;
+            background: -webkit-linear-gradient(to right, #81c408, #FFB524);
+            background: linear-gradient(to right, #81c408, #ffbb32ff);
             background-repeat: no-repeat;
             background-size: cover;
             background-position: 0 0;
@@ -333,7 +333,6 @@ const AuthPage = () => {
                     </form>
                 </div>
 
-                {/* (Overlay Container ... giữ nguyên) */}
                 <div className="overlay-container">
                     <div className="overlay">
                         <div className="overlay-panel overlay-left">
@@ -354,7 +353,6 @@ const AuthPage = () => {
                 </div>
             </div>
 
-            {/* 3. Render Modal (đã được import) */}
             <AddressModal
                 isOpen={isAddressModalOpen}
                 onClose={closeAddressModal}
