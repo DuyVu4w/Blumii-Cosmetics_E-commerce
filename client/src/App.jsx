@@ -11,6 +11,7 @@ import ShopPage from './pages/public/ShopPage.jsx';
 import AuthPage from './pages/public/AuthPage.jsx';
 import NotFoundPage from './pages/public/NotFoundPage.jsx';
 import ShopDetailPage from './pages/public/ShopDetailPage.jsx';
+import CheckoutPage from './pages/public/CheckoutPage.jsx';
 
 function App() {
   // Toàn bộ logic (useState, useEffect) đã được chuyển sang PublicLayout
@@ -24,6 +25,7 @@ function App() {
           <Route path='shop' element={<ShopPage />} />
           <Route path='shop-detail' element={<ShopDetailPage />} />
           <Route path='*' element={<NotFoundPage />} />
+          <Route path='checkout' element={<CheckoutPage/>}/>
         </Route>
 
         {/* 4. Các Route KHÔNG CÓ Layout */}
