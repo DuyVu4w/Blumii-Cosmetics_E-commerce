@@ -1,6 +1,11 @@
 <<<<<<< HEAD
-# Cosmetics-Sales-System-NodeJS-Final-Project
-NodeJS Final Project
-=======
-"# Cosmetics Sales System" 
->>>>>>> master
+
+# FINAL PROJECT - WEB APPLICATION DEVELOPMENT USING NODEJS
+
+# BLUMII - Comestic Sales Management System
+
+# NodeJS Final Project
+
+"# BLUMII - Comestic Sales Management System"
+
+> > > > > > > master

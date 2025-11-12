@@ -1,0 +1,103 @@
+.order-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.filter-btn {
+  background: #f4f6f8;
+  border: 1px solid #dcdcdc;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.filter-btn.active {
+  background: #81c408;
+  color: #fff;
+  border-color: #81c408;
+}
+
+.order-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.order-card {
+  background: #fff;
+  border-radius: 10px;
+  border-left: 4px solid;
+  padding: 12px 14px; /* giảm padding cho card gọn hơn */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  font-size: 14px; /* giảm cỡ chữ toàn card */
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.status {
+  font-weight: 600;
+}
+
+.status.processing {
+  color: #b8860b;
+}
+
+.status.delivered {
+  color: #81c408;
+}
+
+.status.canceled {
+  color: #c4550b;
+}
+
+.order-card.processing {
+  border-color: #ffd966;
+}
+
+.order-card.delivered {
+  border-color: #81c408;
+}
+
+.order-card.canceled {
+  border-color: #f4a261;
+}
+
+.no-orders {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* === Responsive layout === */
+@media (max-width: 992px) {
+  .order-list {
+    grid-template-columns: 1fr; /* về 1 cột khi nhỏ */
+  }
+
+  .order-card {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .order-card {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+}
