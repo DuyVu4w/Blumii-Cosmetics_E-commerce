@@ -48,10 +48,6 @@ const CheckoutPage = () => {
                                     </div>
                                 </div>
                                 <div className="form-item">
-                                    <label className="form-label my-3">Company Name<sup>*</sup></label>
-                                    <input type="text" className="form-control" />
-                                </div>
-                                <div className="form-item">
                                     <label className="form-label my-3">Address <sup>*</sup></label>
                                     <input type="text" className="form-control" placeholder="House Number Street Name" />
                                 </div>
@@ -64,26 +60,14 @@ const CheckoutPage = () => {
                                     <input type="text" className="form-control" />
                                 </div>
                                 <div className="form-item">
-                                    <label className="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                                    <input type="text" className="form-control" />
-                                </div>
-                                <div className="form-item">
-                                    <label className="form-label my-3">Mobile<sup>*</sup></label>
+                                    <label className="form-label my-3">Phone<sup>*</sup></label>
                                     <input type="tel" className="form-control" />
                                 </div>
                                 <div className="form-item">
                                     <label className="form-label my-3">Email Address<sup>*</sup></label>
                                     <input type="email" className="form-control" />
                                 </div>
-                                <div className="form-check my-3">
-                                    <input type="checkbox" className="form-check-input" id="Account-1" name="Accounts" value="Accounts" />
-                                    <label className="form-check-label" htmlFor="Account-1">Create an account?</label>
-                                </div>
                                 <hr />
-                                <div className="form-check my-3">
-                                    <input className="form-check-input" type="checkbox" id="Address-1" name="Address" value="Address" />
-                                    <label className="form-check-label" htmlFor="Address-1">Ship to a different address?</label>
-                                </div>
                                 <div className="form-item">
                                     <textarea name="text" className="form-control" spellCheck="false" cols="30" rows="11" placeholder="Oreder Notes (Optional)"></textarea>
                                 </div>
@@ -110,9 +94,9 @@ const CheckoutPage = () => {
                                                         </div>
                                                     </th>
                                                     <td>{item.name}</td>
-                                                    <td>${item.price.toFixed(2)}</td>
+                                                    <td>{item.price.toFixed(2)} đ</td>
                                                     <td>{item.quantity}</td>
-                                                    <td>${(item.price * item.quantity).toFixed(2)}</td>
+                                                    <td>{(item.price * item.quantity).toFixed(2)} đ</td>
                                                 </tr>
                                             ))}
                                             <tr>
@@ -125,7 +109,7 @@ const CheckoutPage = () => {
                                                 </td>
                                                 <td className="py-5">
                                                     <div className="py-3 border-bottom border-top">
-                                                        <p className="mb-0 text-dark">${subtotal.toFixed(2)}</p>
+                                                        <p className="mb-0 text-dark">{subtotal.toFixed(2)} đ</p>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -161,7 +145,7 @@ const CheckoutPage = () => {
                                                             onChange={(e) => setShippingOption(e.target.value)}
                                                         />
                                                         <label className="form-check-label" htmlFor="Shipping-2">
-                                                            Flat rate: $15.00
+                                                            Flat rate: 15.00 đ
                                                         </label>
                                                     </div>
                                                     <div className="form-check text-start">
@@ -175,7 +159,7 @@ const CheckoutPage = () => {
                                                             onChange={(e) => setShippingOption(e.target.value)}
                                                         />
                                                         <label className="form-check-label" htmlFor="Shipping-3">
-                                                            Local Pickup: $8.00
+                                                            Local Pickup: 8.00 đ
                                                         </label>
                                                     </div>
                                                 </td>
@@ -192,34 +176,26 @@ const CheckoutPage = () => {
                                                 <td className="py-5"></td>
                                                 <td className="py-5">
                                                     <div className="py-3 border-bottom border-top">
-                                                        <p className="mb-0 text-dark">${total.toFixed(2)}</p>
+                                                        <p className="mb-0 text-dark">{total.toFixed(2)} đ</p>
                                                     </div>
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                                {/* <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                     <div className="col-12">
                                         <div className="form-check text-start my-3">
-                                            <input type="checkbox" className="form-check-input bg-primary border-0" id="Transfer-1" name="Transfer" value="Transfer" />
+                                            <input type="radio" className="form-check-input bg-primary border-0" id="Transfer-1" name="Payment-Method" value="Transfer" />
                                             <label className="form-check-label" htmlFor="Transfer-1">Direct Bank Transfer</label>
                                         </div>
                                         <p className="text-start text-dark">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</p>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                     <div className="col-12">
                                         <div className="form-check text-start my-3">
-                                            <input type="checkbox" className="form-check-input bg-primary border-0" id="Payments-1" name="Payments" value="Payments" />
-                                            <label className="form-check-label" htmlFor="Payments-1">Check Payments</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                                    <div className="col-12">
-                                        <div className="form-check text-start my-3">
-                                            <input type="checkbox" className="form-check-input bg-primary border-0" id="Delivery-1" name="Delivery" value="Delivery" />
+                                            <input type="radio" className="form-check-input bg-primary border-0" id="Delivery-1" name="Payment-Method" value="Delivery" />
                                             <label className="form-check-label" htmlFor="Delivery-1">Cash On Delivery</label>
                                         </div>
                                     </div>
@@ -227,8 +203,8 @@ const CheckoutPage = () => {
                                 <div className="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                     <div className="col-12">
                                         <div className="form-check text-start my-3">
-                                            <input type="checkbox" className="form-check-input bg-primary border-0" id="Paypal-1" name="Paypal" value="Paypal" />
-                                            <label className="form-check-label" htmlFor="Paypal-1">Paypal</label>
+                                            <input type="radio" className="form-check-input bg-primary border-0" id="Paypal-1" name="Payment-Method" value="Paypal" />
+                                            <label className="form-check-label" htmlFor="Paypal-1">VNPay</label>
                                         </div>
                                     </div>
                                 </div>

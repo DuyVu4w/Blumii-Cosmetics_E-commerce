@@ -29,7 +29,7 @@ const OrderResultPage = () => {
 
     return (
         <>
-            <PageBannerHeader />
+            <PageBannerHeader title="Order result"/>
 
             <div className="bg-white rounded-3 shadow-lg p-4 my-5 mx-auto" style={{ maxWidth: "500px" }}>
                 
