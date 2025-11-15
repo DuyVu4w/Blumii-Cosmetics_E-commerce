@@ -53,13 +53,3 @@ function App() {
 
 export default App;
 
-// import React from "react";
-// import "./App.css";
-// import UserProfilePage from "./pages/public/UserProfilePage.jsx";
-
-// function App() {
-//
-//   return <UserProfilePage />;
-// }
-
-// export default App;
