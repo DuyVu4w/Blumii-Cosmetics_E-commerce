@@ -13,6 +13,9 @@ import NotFoundPage from './pages/public/NotFoundPage.jsx';
 import ShopDetailPage from './pages/public/ShopDetailPage.jsx';
 import CheckoutPage from './pages/public/CheckoutPage.jsx';
 import CartPage from './pages/public/CartPage.jsx';
+import OrderResultPage from './pages/public/OrderResultPage.jsx';
+import OrderDetailPage from './pages/public/OrderDetailPage.jsx';
+import OrderHistoryPage from './pages/public/OrderHistory.jsx';
 
 function App() {
   // Toàn bộ logic (useState, useEffect) đã được chuyển sang PublicLayout
@@ -28,6 +31,9 @@ function App() {
           <Route path='*' element={<NotFoundPage />} />
           <Route path='checkout' element={<CheckoutPage/>}/>
           <Route path='cart' element={<CartPage/>}/>
+          <Route path='order-result/:id' element={<OrderResultPage/>}/>
+          <Route path='order-detail/:id' element={<OrderDetailPage/>}/>
+          <Route path='order-history/:id'element={<OrderHistoryPage/>}/>
         </Route>
 
         {/* 4. Các Route KHÔNG CÓ Layout */}
