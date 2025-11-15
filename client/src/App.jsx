@@ -1,9 +1,9 @@
-import React from 'react';
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from "react";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // 1. Import Layout mới
-import PublicLayout from './components/layout/PublicLayout.jsx';
+import PublicLayout from "./components/layout/PublicLayout.jsx";
 
 // 2. Import các trang
 import HomePage from './pages/public/HomePage.jsx';
@@ -11,6 +11,8 @@ import ShopPage from './pages/public/ShopPage.jsx';
 import AuthPage from './pages/public/AuthPage.jsx';
 import NotFoundPage from './pages/public/NotFoundPage.jsx';
 import ShopDetailPage from './pages/public/ShopDetailPage.jsx';
+import UserProfilePage from "./pages/public/UserProfilePage.jsx";
+
 import CheckoutPage from './pages/public/CheckoutPage.jsx';
 import CartPage from './pages/public/CartPage.jsx';
 import OrderResultPage from './pages/public/OrderResultPage.jsx';
@@ -34,14 +36,30 @@ function App() {
           <Route path='order-result/:id' element={<OrderResultPage/>}/>
           <Route path='order-detail/:id' element={<OrderDetailPage/>}/>
           <Route path='order-history/:id'element={<OrderHistoryPage/>}/>
+          <Route path="shop" element={<ShopPage />} />
+          <Route path="shop-detail" element={<ShopDetailPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="profile" element={<UserProfilePage />} />
         </Route>
 
         {/* 4. Các Route KHÔNG CÓ Layout */}
-        <Route path='/auth' element={<AuthPage />} />
-
+        <Route path="/auth" element={<AuthPage />} />
+        {/* để test thử tại ngoài kia bị navbar che */}
+        <Route path="/profile_test" element={<UserProfilePage />} />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
+
+// import React from "react";
+// import "./App.css";
+// import UserProfilePage from "./pages/public/UserProfilePage.jsx";
+
+// function App() {
+//
+//   return <UserProfilePage />;
+// }
+
+// export default App;
