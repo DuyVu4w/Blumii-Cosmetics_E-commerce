@@ -6,12 +6,19 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PublicLayout from "./components/layout/PublicLayout.jsx";
 
 // 2. Import các trang
-import HomePage from "./pages/public/HomePage.jsx";
-import ShopPage from "./pages/public/ShopPage.jsx";
-import AuthPage from "./pages/public/AuthPage.jsx";
-import NotFoundPage from "./pages/public/NotFoundPage.jsx";
-import ShopDetailPage from "./pages/public/ShopDetailPage.jsx";
+import HomePage from './pages/public/HomePage.jsx';
+import ShopPage from './pages/public/ShopPage.jsx';
+import AuthPage from './pages/public/AuthPage.jsx';
+import NotFoundPage from './pages/public/NotFoundPage.jsx';
+import ShopDetailPage from './pages/public/ShopDetailPage.jsx';
 import UserProfilePage from "./pages/public/UserProfilePage.jsx";
+
+import CheckoutPage from './pages/public/CheckoutPage.jsx';
+import CartPage from './pages/public/CartPage.jsx';
+import OrderResultPage from './pages/public/OrderResultPage.jsx';
+import OrderDetailPage from './pages/public/OrderDetailPage.jsx';
+import OrderHistoryPage from './pages/public/OrderHistory.jsx';
+
 function App() {
   // Toàn bộ logic (useState, useEffect) đã được chuyển sang PublicLayout
 
@@ -21,6 +28,14 @@ function App() {
         {/* 3. Các Route CÓ Layout (Header/Footer) */}
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<HomePage />} />
+          <Route path='shop' element={<ShopPage />} />
+          <Route path='shop-detail' element={<ShopDetailPage />} />
+          <Route path='*' element={<NotFoundPage />} />
+          <Route path='checkout' element={<CheckoutPage/>}/>
+          <Route path='cart' element={<CartPage/>}/>
+          <Route path='order-result/:id' element={<OrderResultPage/>}/>
+          <Route path='order-detail/:id' element={<OrderDetailPage/>}/>
+          <Route path='order-history/:id'element={<OrderHistoryPage/>}/>
           <Route path="shop" element={<ShopPage />} />
           <Route path="shop-detail" element={<ShopDetailPage />} />
           <Route path="*" element={<NotFoundPage />} />
@@ -38,13 +53,3 @@ function App() {
 
 export default App;
 
-// import React from "react";
-// import "./App.css";
-// import UserProfilePage from "./pages/public/UserProfilePage.jsx";
-
-// function App() {
-//
-//   return <UserProfilePage />;
-// }
-
-// export default App;
