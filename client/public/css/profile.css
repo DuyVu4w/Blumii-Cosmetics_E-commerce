@@ -1,16 +1,16 @@
-* {
+.userprofile-page * {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
 }
 
-body {
+.userprofile-page {
   background-color: #f4f6f8;
   margin: 0;
   padding: 0;
   color: #45595b;
 }
 
-.container {
+.userprofile-page .profile-container {
   display: flex;
   max-width: 1200px;
   margin: 40px auto;
@@ -19,7 +19,7 @@ body {
 }
 
 /* Sidebar cố định */
-.sidebar {
+.userprofile-page .sidebar {
   width: 280px;
   height: 590px;
   background-color: #eaf8d9;
@@ -32,7 +32,7 @@ body {
   top: 40px; /* giữ cố định khi cuộn */
 }
 
-.sidebar img {
+.userprofile-page .sidebar img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
@@ -40,26 +40,26 @@ body {
   margin-bottom: 10px;
 }
 
-.sidebar h3 {
+.userprofile-page .sidebar h3 {
   font-size: 20px;
   margin: 10px 0 5px;
   color: #81c408;
 }
 
-.sidebar p {
+.userprofile-page .sidebar p {
   font-size: 14px;
   color: #666;
   margin-bottom: 20px;
 }
 
-.sidebar ul {
+.userprofile-page .sidebar ul {
   list-style: none;
   padding: 0;
   margin: 0;
   text-align: left;
 }
 
-.sidebar ul li {
+.userprofile-page .sidebar ul li {
   padding: 10px 15px;
   margin: 5px 0;
   border-radius: 10px;
@@ -68,24 +68,24 @@ body {
   transition: 0.2s;
 }
 
-.sidebar ul li:hover {
+.userprofile-page .sidebar ul li:hover {
   background-color: rgba(129, 196, 8, 0.15);
   font-weight: 500;
 }
 
-.sidebar ul li.active {
+.userprofile-page .sidebar ul li.active {
   background-color: rgba(129, 196, 8, 0.25);
   font-weight: 600;
   color: #81c408;
 }
 
 /* Main */
-.main-content {
+.userprofile-page .profile-main-content {
   flex: 1;
 }
 
 /* Hồ sơ */
-.status-bar {
+.userprofile-page .status-bar {
   background-color: #fff;
   padding: 16px;
   border-radius: 12px;
@@ -96,7 +96,7 @@ body {
   justify-content: space-between;
 }
 
-.status-bar textarea {
+.userprofile-page .status-bar textarea {
   width: 85%;
   border: none;
   outline: none;
@@ -113,7 +113,7 @@ body {
   overflow: hidden;
 }
 
-.status-bar button {
+.userprofile-page .status-bar button {
   background-color: #81c408;
   color: #fff;
   border: none;
@@ -123,7 +123,7 @@ body {
   font-weight: 500;
 }
 
-.bio-card {
+.userprofile-page .bio-card {
   background-color: #fff;
   border-radius: 12px;
   padding: 20px;
@@ -131,7 +131,7 @@ body {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-.bio-header {
+.userprofile-page .bio-header {
   background-color: #a8d64e;
   padding: 12px;
   border-radius: 8px;
@@ -142,39 +142,39 @@ body {
 }
 
 /* Bảng thông tin cá nhân */
-.bio-card h3 {
+.userprofile-page .bio-card h3 {
   font-size: 20px; /* tiêu đề “Thông tin cá nhân” */
   margin-bottom: 10px;
 }
 
-.bio-table {
+.userprofile-page .bio-table {
   width: 100%;
   border-spacing: 0 10px;
 }
 
-.bio-table td {
+.userprofile-page .bio-table td {
   padding: 6px 0; /* thêm khoảng đệm dọc */
   line-height: 1.7; /* giãn dòng nhẹ */
 }
 
-.bio-table td:first-child {
+.userprofile-page .bio-table td:first-child {
   font-weight: 500;
   color: #45595b;
   width: 30%;
 }
 
-.bio-table td:last-child {
+.userprofile-page .bio-table td:last-child {
   color: #607172;
 }
 
-.stats-grid {
+.userprofile-page .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   margin-top: 20px;
 }
 
-.stat-card {
+.userprofile-page .stat-card {
   background-color: #fff;
   padding: 14px 10px; /* giảm padding cho thấp lại */
   border-radius: 10px;
@@ -187,36 +187,36 @@ body {
   flex-direction: column;
   justify-content: center;
 }
-.stat-card h2 {
+.userprofile-page .stat-card h2 {
   margin: 0;
   font-size: 20px; /* giảm font chữ cho cân đối */
   font-weight: 600;
 }
-.stat-card p {
+.userprofile-page .stat-card p {
   margin-top: 6px;
   font-size: 16px;
   font-weight: 500;
 }
 
-.ordered {
+.userprofile-page .ordered {
   border-color: #7fb77e;
   color: #558b2f;
 }
-.processing {
+.userprofile-page .processing {
   border-color: #ffd966;
   color: #b8860b;
 }
-.delivered {
+.userprofile-page .delivered {
   border-color: #81c408;
   color: #558b2f;
 }
-.canceled {
+.userprofile-page .canceled {
   border-color: #f4a261;
   color: #c4550b;
 }
 
 /* Quản lý hồ sơ */
-.section {
+.userprofile-page .section {
   background-color: #fff;
   border-radius: 16px;
   padding: 24px;
@@ -224,32 +224,32 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.section h2 {
+.userprofile-page .section h2 {
   color: #81c408;
   margin-bottom: 16px;
   font-size: 20px;
 }
 
-.form-group {
+.userprofile-page .form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 12px;
 }
 
-.form-group input,
-.form-group select {
+.userprofile-page .form-group input,
+.userprofile-page .form-group select {
   padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 10px;
   font-size: 15px;
 }
 
-.form-group label {
+.userprofile-page .form-group label {
   font-weight: 500;
   color: #45595b;
   margin-bottom: 6px;
 }
-.btn {
+.userprofile-page .btn {
   background-color: #81c408;
   color: #fff;
   border: none;
@@ -261,14 +261,14 @@ body {
 }
 
 /* Address list */
-.address-list {
+.userprofile-page .address-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-top: 16px;
 }
 
-.address-card {
+.userprofile-page .address-card {
   background-color: #f9fff2;
   border-radius: 12px;
   padding: 16px;
@@ -276,18 +276,18 @@ body {
   position: relative;
 }
 
-.address-card h4 {
+.userprofile-page .address-card h4 {
   margin: 0 0 5px;
   color: #81c408;
   font-size: 18px;
 }
 
-.address-card p {
+.userprofile-page .address-card p {
   margin: 4px 0;
   font-size: 14px;
 }
 
-.address-actions {
+.userprofile-page .address-actions {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -295,7 +295,7 @@ body {
   gap: 8px;
 }
 
-.address-actions button {
+.userprofile-page .address-actions button {
   border: none;
   background: none;
   cursor: pointer;
@@ -303,7 +303,7 @@ body {
   font-size: 14px;
 }
 
-.address-actions button:hover {
+.userprofile-page .address-actions button:hover {
   text-decoration: underline;
 }
 
@@ -313,57 +313,57 @@ body {
 
 /* Khi màn hình nhỏ hơn 992px (tablet) */
 @media (max-width: 992px) {
-  .container {
+  .userprofile-page .profile-container {
     flex-direction: column;
     align-items: center;
   }
 
-  .sidebar {
+  .userprofile-page .sidebar {
     width: 90%;
     height: 90%;
     position: static;
     margin-bottom: 20px;
   }
 
-  .main-content {
+  .userprofile-page .profile-main-content {
     width: 95%;
   }
 
-  .address-list {
+  .userprofile-page .address-list {
     grid-template-columns: 1fr; /* chỉ 1 cột khi nhỏ */
   }
 
-  .stats-grid {
+  .userprofile-page .stats-grid {
     grid-template-columns: repeat(2, 1fr); /* chia 2 cột thay vì 4 */
   }
 }
 
 /* Khi màn hình cực nhỏ hơn 600px (mobile) */
 @media (max-width: 600px) {
-  .sidebar ul li {
+  .userprofile-page .sidebar ul li {
     font-size: 14px;
     padding: 8px 12px;
   }
 
-  .stat-card {
+  .userprofile-page .stat-card {
     height: auto;
     padding: 12px;
   }
 
-  .stats-grid {
+  .userprofile-page .stats-grid {
     grid-template-columns: 1fr; /* mỗi dòng 1 ô */
   }
 
-  .section {
+  .userprofile-page .section {
     padding: 16px;
   }
 
-  .form-group input,
-  .form-group select {
+  .userprofile-page .form-group input,
+  .userprofile-page .form-group select {
     font-size: 14px;
   }
 
-  .btn {
+  .userprofile-page .btn {
     width: 100%;
     text-align: center;
   }
