@@ -18,6 +18,7 @@ const sampleVegetableProducts = [
 ];
 
 const HomePage = () => {
+  
   return (
     <>
       <Hero />

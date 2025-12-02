@@ -10,6 +10,10 @@ const PublicLayout = () => {
     const [showBackToTop, setShowBackToTop] = useState(false);
 
     useEffect(() => {
+        
+    }, []);
+
+    useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 300) {
                 setShowBackToTop(true);
@@ -17,6 +21,13 @@ const PublicLayout = () => {
                 setShowBackToTop(false);
             }
         };
+
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        if (token) {
+            localStorage.setItem('auth_token', token);
+            window.history.replaceState({}, document.title, "/");
+        }
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
@@ -30,7 +41,7 @@ const PublicLayout = () => {
     return (
         <>
             <Spinner />
-            
+
             <div className='container-fluid fixed-top'>
                 <Header />
             </div>
@@ -39,13 +50,13 @@ const PublicLayout = () => {
             <main>
                 <Outlet />
             </main>
-            
+
             <Footer />
 
             {/* Nút Back to Top */}
             {showBackToTop && (
-                <a 
-                    href="#" 
+                <a
+                    href="#"
                     className="btn btn-primary border-3 border-primary rounded-circle back-to-top"
                     onClick={scrollToTop}
                     style={{ display: 'flex' }}
