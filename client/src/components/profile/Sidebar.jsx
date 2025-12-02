@@ -16,7 +16,7 @@ const Sidebar = ({ activeSection, setActiveSection }) => {
           className={activeSection === "profile" ? "active" : ""}
           onClick={() => setActiveSection("profile")}
         >
-          👤 Hồ sơ của tôi
+          👤 My profile
         </li>
 
         {/* sidebar qly hso */}
@@ -24,7 +24,7 @@ const Sidebar = ({ activeSection, setActiveSection }) => {
           className={activeSection === "manage" ? "active" : ""}
           onClick={() => setActiveSection("manage")}
         >
-          📝 Quản lý hồ sơ
+          📝 Manage Profile
         </li>
 
         {/* sidebar đơn hàng */}
@@ -32,7 +32,7 @@ const Sidebar = ({ activeSection, setActiveSection }) => {
           className={activeSection === "myorder" ? "active" : ""}
           onClick={() => setActiveSection("myorder")}
         >
-          📦 Đơn hàng của tôi
+          📦 My Orders
         </li>
       </ul>
     </aside>

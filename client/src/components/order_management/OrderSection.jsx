@@ -37,7 +37,7 @@ const OrderSection = () => {
 
   return (
     <section className="section">
-      <h2>Đơn hàng của tôi</h2>
+      <h2>My Orders</h2>
 
       {/* Bộ lọc trạng thái */}
       <div className="order-filters">
@@ -48,12 +48,12 @@ const OrderSection = () => {
             onClick={() => setFilter(status)}
           >
             {status === "all"
-              ? "Tất cả"
+              ? "All"
               : status === "processing"
-              ? "Đang xử lý"
+              ? "Processing"
               : status === "delivered"
-              ? "Đã giao"
-              : "Đã hủy"}
+              ? "Delivered"
+              : "Canceled"}
           </button>
         ))}
       </div>
@@ -64,23 +64,23 @@ const OrderSection = () => {
           filteredOrders.map((order) => (
             <div key={order.id} className={`order-card ${order.status}`}>
               <div className="order-header">
-                <span>Mã đơn: {order.id}</span>
+                <span>Order Code: {order.id}</span>
                 <span className={`status ${order.status}`}>
                   {order.status === "processing"
-                    ? "Đang xử lý"
+                    ? "Processing"
                     : order.status === "delivered"
-                    ? "Đã giao"
-                    : "Đã hủy"}
+                    ? "Delivered"
+                    : "Canceled"}
                 </span>
               </div>
               <p>
-                <b>Ngày đặt:</b> {order.date}
+                <b>Order Date:</b> {order.date}
               </p>
               <p>
-                <b>Tổng tiền:</b> {order.total}
+                <b>Total Amount:</b> {order.total}
               </p>
               <p>
-                <b>Địa chỉ:</b> {order.address}
+                <b>Address:</b> {order.address}
               </p>
             </div>
           ))

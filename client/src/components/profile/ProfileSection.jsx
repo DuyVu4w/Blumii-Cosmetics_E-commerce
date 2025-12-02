@@ -4,20 +4,18 @@ const ProfileSection = () => {
   return (
     <div id="profile-section">
       <div className="status-bar">
-        <textarea placeholder="Bạn đang nghĩ gì về BLUMII?"></textarea>
-        <button>Đăng</button>
+        <textarea placeholder="What do you think about BLUMMI?"></textarea>
+        <button>Post</button>
       </div>
 
       <div className="bio-card">
-        <div className="bio-header">
-          “Chào mừng bạn đã đến với Blummii Cosmetics”
-        </div>
+        <div className="bio-header">“Welcome to Blummi Cosmetics”</div>
 
-        <h3>Thông tin cá nhân</h3>
+        <h3>Personal Information</h3>
         <table className="bio-table">
           <tbody>
             <tr>
-              <td>Họ và tên:</td>
+              <td>Full name:</td>
               <td>Nguyễn Thị Anh Thư</td>
             </tr>
             <tr>
@@ -25,26 +23,20 @@ const ProfileSection = () => {
               <td>nguyenanhthu09205@gmail.com</td>
             </tr>
             <tr>
-              <td>Điện thoại:</td>
+              <td>Phone Number:</td>
               <td>0909099999</td>
             </tr>
             <tr>
-              <td>Địa chỉ:</td>
+              <td>Address:</td>
               <td>Tân Phong, Quận 7, TP.Hồ Chí Minh</td>
             </tr>
             <tr>
-              <td>Ngày tham gia:</td>
+              <td>Date of participation:</td>
               <td>10/10/2024</td>
             </tr>
             <tr>
-              <td>Hạng thành viên:</td>
-              <td>
-                Vàng{" "}
-                <i
-                  className="fa-solid fa-crown"
-                  style={{ color: "#ffd700", marginLeft: "5px" }}
-                ></i>
-              </td>
+              <td>Membership level:</td>
+              <td>Vàng ✨</td>
             </tr>
           </tbody>
         </table>
@@ -53,19 +45,19 @@ const ProfileSection = () => {
       <section className="stats-grid">
         <div className="stat-card ordered">
           <h2>35</h2>
-          <p>Đơn hàng đã đặt</p>
+          <p>Order placed</p>
         </div>
         <div className="stat-card processing">
           <h2>8</h2>
-          <p>Đang xử lý</p>
+          <p>Processing</p>
         </div>
         <div className="stat-card delivered">
           <h2>63</h2>
-          <p>Đã giao thành công</p>
+          <p>Delivered</p>
         </div>
         <div className="stat-card canceled">
           <h2>5</h2>
-          <p>Đơn hàng đã hủy</p>
+          <p>Canceled</p>
         </div>
       </section>
     </div>
