@@ -6,7 +6,7 @@ import PageBannerHeader from "../../components/shared/PageBannerHeader";
 const sampleCart = [
   {
     id: 1,
-    imgSrc: "img/serum.png",
+    imgSrc: "img/serum1.jpg",
     name: "Big Banana",
     price: 2.99,
     quantity: 1,
