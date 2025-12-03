@@ -10,6 +10,23 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
+// [GET] /api/products/:id
+exports.getProductById = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ success: false, message: 'Không tìm thấy sản phẩm' });
+        }
+        res.json({ success: true, data: product });
+    } catch (error) {
+        // Lỗi CastError xảy ra khi ID không đúng định dạng MongoDB
+        if (error.name === 'CastError') {
+            return res.status(400).json({ success: false, message: 'ID sản phẩm không hợp lệ' });
+        }
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
 // [POST] /api/products/addProduct
 exports.createProduct = async (req, res) => {
     try {

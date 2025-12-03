@@ -112,6 +112,30 @@ const Header = () => {
                   <Link to="/testimonial" className="dropdown-item">Torriden</Link>
                   <Link to="/404" className="dropdown-item">Maybelline</Link>
                   <Link to="/404" className="dropdown-item">Innisfree</Link>
+                  <Link to="/cart" className="dropdown-item">
+                    Romand
+                  </Link>
+                  <Link to="/checkout" className="dropdown-item">
+                    3CE
+                  </Link>
+                  <Link to="/testimonial" className="dropdown-item">
+                    Torriden
+                  </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Maybelline
+                  </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Innisfree
+                  </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Jullydol
+                  </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Bath & Body Works
+                  </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Cocoon
+                  </Link>
                 </div>
               </div>
               <NavLink to="/contact" className={getNavLinkClass}>Contact</NavLink>
