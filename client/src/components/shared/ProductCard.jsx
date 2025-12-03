@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const ProductCard = ({ imgSrc, category, name, description, price }) => {
+
+  const truncateWords = (str, numWords) => {
+    if (!str) return "";
+    const words = str.split(" ");
+    if (words.length <= numWords) return str;
+    return words.slice(0, numWords).join(" ") + "...";
+  };
+
   return (
     <div className="rounded position-relative fruite-item h-100">
       <div className="fruite-img">
@@ -14,11 +22,15 @@ const ProductCard = ({ imgSrc, category, name, description, price }) => {
       >
         {category}
       </div>
-      <div className="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column">
+      <div className="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column fruite-item-bottom">
         <Link to="/shop-detail">
-          <h4>{name}</h4>
+          <h4 className="h5 fw-bold text-dark mb-2" title={name}>
+            {truncateWords(name, 5)}
+          </h4>
         </Link>
-        <p>{description}</p>
+        <p className="text-muted mb-3" style={{ fontSize: '14px', minHeight: '42px' }} title={description}>
+          {truncateWords(description, 15)}
+        </p>
         <div className="d-flex justify-content-between flex-lg-wrap mt-auto">
           <p className="text-dark fs-5 fw-bold mb-0">{price}</p>
           <button

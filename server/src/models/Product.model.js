@@ -1,7 +1,8 @@
-const mongoose = require('mongoose')
-const slug = require('mongoose-slug-updater')
+const mongoose = require('mongoose');
+const slug = require('mongoose-slug-updater');
+
 mongoose.plugin(slug);
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
     name: {
@@ -24,7 +25,8 @@ const productSchema = new Schema({
     category: { 
         type: String, 
         required: true,
-        enum: ['Cleanser', 'Toner', 'Moisturizer', 'Sunscreen', 'Makeup', 'Perfume', 'BodyCare', 'HairCare'] 
+        // Lưu ý: Đảm bảo dữ liệu gửi lên khớp với các giá trị này
+        enum: ['Skincare', 'Makeup', 'Body & Hair', 'Mask', 'Cleanser', 'Toner', 'Moisturizer', 'Sunscreen', 'Perfume', 'BodyCare', 'HairCare'] 
     },
     origin: { type: String },
     ingredients: { type: String },
@@ -53,7 +55,9 @@ const productSchema = new Schema({
         required: true,
         min: 0
     }
-})
+}, {
+    timestamps: true // Tự động tạo createdAt và updatedAt
+});
 
 const Product = mongoose.model('Product', productSchema);
 module.exports = Product;
