@@ -27,9 +27,8 @@ const Header = () => {
   }, []);
 
   // Tính toán class cho Navbar (dựa trên state isNavbarOpen)
-  const navbarClasses = `collapse navbar-collapse bg-white ${
-    isNavbarOpen ? "show" : ""
-  }`;
+  const navbarClasses = `collapse navbar-collapse bg-white ${isNavbarOpen ? "show" : ""
+    }`;
 
   // Tính toán thuộc tính cho Modal (dựa trên state isSearchModalOpen)
   const modalStyle = isSearchModalOpen
@@ -38,9 +37,8 @@ const Header = () => {
   const modalAria = isSearchModalOpen ? "true" : "false";
 
   // Tính toán class cho Topbar (dựa trên CSS tùy chỉnh và state isScrolled)
-  const topbarClasses = `container topbar bg-primary ${
-    isScrolled ? "topbar-hidden" : ""
-  }`;
+  const topbarClasses = `container topbar bg-primary ${isScrolled ? "topbar-hidden" : ""
+    }`;
 
   // Hàm xử lý class cho NavLink (để đổi màu khi active)
   const getNavLinkClass = ({ isActive }) =>
@@ -130,6 +128,15 @@ const Header = () => {
                   </Link>
                   <Link to="/404" className="dropdown-item">
                     Innisfree
+                  </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Jullydol
+                  </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Bath & Body Works
+                  </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Cocoon
                   </Link>
                 </div>
               </div>

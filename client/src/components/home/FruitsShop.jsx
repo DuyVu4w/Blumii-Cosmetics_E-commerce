@@ -37,8 +37,8 @@ const FruitsShop = () => {
   const filteredProducts = activeTab === "All Products"
     ? products
     : products.filter(p => {
-        if (activeTab === "Body & Hair") return ["Body & Hair", "BodyCare", "HairCare"].includes(p.category);
-        return p.category === activeTab;
+      if (activeTab === "Body & Hair") return ["Body & Hair", "BodyCare", "HairCare"].includes(p.category);
+      return p.category === activeTab;
     });
 
   if (loading) return <Loader />;
@@ -59,16 +59,16 @@ const FruitsShop = () => {
                       className={`d-flex m-2 py-2 rounded-pill border-0 ${activeTab === cat ? "active" : ""}`}
                       onClick={() => setActiveTab(cat)}
                       style={{
-                          cursor: 'pointer',
-                          backgroundColor: activeTab === cat ? '#eaae2dff' : '#d6d6d6ff',
+                        cursor: 'pointer',
+                        backgroundColor: activeTab === cat ? '#eaae2dff' : '#d6d6d6ff',
                       }}
                     >
-                      <span 
-                        className="" 
-                        style={{ 
-                            width: "130px", 
-                            color: activeTab === cat ? '#ffffffff' : '#333',
-                            fontWeight: activeTab === cat ? 'bold' : 'normal'
+                      <span
+                        className=""
+                        style={{
+                          width: "130px",
+                          color: activeTab === cat ? '#ffffffff' : '#333',
+                          fontWeight: activeTab === cat ? 'bold' : 'normal'
                         }}
                       >
                         {cat}
@@ -79,7 +79,7 @@ const FruitsShop = () => {
               </ul>
             </div>
           </div>
-          
+
           {/* Hiển thị danh sách sản phẩm đã lọc */}
           <div className="tab-content">
             <div className="tab-pane fade show p-0 active">
@@ -87,22 +87,23 @@ const FruitsShop = () => {
                 <div className="col-lg-12">
                   <div className="row g-4">
                     {filteredProducts.length > 0 ? (
-                        filteredProducts.map((product) => (
+                      filteredProducts.map((product) => (
                         <div key={product._id} className="col-md-6 col-lg-3 col-xl-3">
-                            <ProductCard
-                                imgSrc={product.image[0]}
-                                category={product.category}
-                                name={product.name}
-                                description={product.description}
-                                // Format giá từ số sang chuỗi có dấu chấm và đ
-                                price={`${formatPrice(product.price)}₫`}
-                            />
+                          <ProductCard
+                            id={product._id}
+                            imgSrc={product.image[0]}
+                            category={product.category}
+                            name={product.name}
+                            description={product.description}
+                            // Format giá từ số sang chuỗi có dấu chấm và đ
+                            price={`${formatPrice(product.price)}₫`}
+                          />
                         </div>
-                        ))
+                      ))
                     ) : (
-                        <div className="col-12 py-5 text-muted">
-                            <p>Chưa có sản phẩm nào trong danh mục này.</p>
-                        </div>
+                      <div className="col-12 py-5 text-muted">
+                        <p>Chưa có sản phẩm nào trong danh mục này.</p>
+                      </div>
                     )}
                   </div>
                 </div>
