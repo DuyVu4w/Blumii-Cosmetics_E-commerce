@@ -1,10 +1,28 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-const ProfileSection = () => {
+const ProfileSection = ({ user }) => {
+  if (!user) return null;
+
+  const getDisplayAddress = () => {
+    if (!user.addresses || user.addresses.length === 0) return "Not updated yet";
+    
+    const defaultAddr = user.addresses.find(addr => addr.isDefault) || user.addresses[0];
+    return [defaultAddr.street, defaultAddr.ward, defaultAddr.district, defaultAddr.province]
+      .filter(Boolean)
+      .join(", ");
+  };
+
+  const joinDate = user.createdAt 
+    ? new Date(user.createdAt).toLocaleDateString('en-GB')
+    : "N/A";
+
+  const membershipLevel = user.status === 'active' ? "Gold Member ✨" : "Standard Member";
+
   return (
     <div id="profile-section">
       <div className="status-bar">
-        <textarea placeholder="What do you think about BLUMMI?"></textarea>
+        <textarea placeholder={`What's on your mind, ${user.customer_name}?`}></textarea>
         <button>Post</button>
       </div>
 
@@ -16,32 +34,36 @@ const ProfileSection = () => {
           <tbody>
             <tr>
               <td>Full name:</td>
-              <td>Nguyễn Thị Anh Thư</td>
+              <td className="fw-bold">{user.customer_name}</td>
             </tr>
             <tr>
               <td>Email:</td>
-              <td>nguyenanhthu09205@gmail.com</td>
+              <td>{user.email}</td>
             </tr>
             <tr>
               <td>Phone Number:</td>
-              <td>0909099999</td>
+              <td>{user.phone_number || "Not provided"}</td>
             </tr>
             <tr>
               <td>Address:</td>
-              <td>Tân Phong, Quận 7, TP.Hồ Chí Minh</td>
+              <td>{getDisplayAddress()}</td>
             </tr>
             <tr>
               <td>Date of participation:</td>
-              <td>10/10/2024</td>
+              <td>{joinDate}</td>
             </tr>
             <tr>
               <td>Membership level:</td>
-              <td>Vàng ✨</td>
+              <td className="text-warning fw-bold">{membershipLevel}</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      {/* LƯU Ý: Phần Stats dưới đây hiện tại là dữ liệu tĩnh (Hardcoded) 
+        vì Database Customer chưa có liên kết trực tiếp đến bảng Orders để đếm số lượng.
+        Bạn cần gọi API lấy count đơn hàng để fill vào đây sau này.
+      */}
       <section className="stats-grid">
         <div className="stat-card ordered">
           <h2>35</h2>
@@ -62,6 +84,17 @@ const ProfileSection = () => {
       </section>
     </div>
   );
+};
+
+ProfileSection.propTypes = {
+  user: PropTypes.shape({
+    customer_name: PropTypes.string,
+    email: PropTypes.string,
+    phone_number: PropTypes.string,
+    addresses: PropTypes.array,
+    createdAt: PropTypes.string,
+    status: PropTypes.string,
+  }).isRequired,
 };
 
 export default ProfileSection;

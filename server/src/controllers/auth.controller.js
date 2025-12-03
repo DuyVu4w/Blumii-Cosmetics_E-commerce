@@ -100,7 +100,6 @@ exports.login = async (req, res) => {
     }
 };
 
-// --- PASSWORD RECOVERY (Đã sửa lỗi biến randomPassword) ---
 
 // [POST] /api/auth/forgot-password
 exports.forgotPassword = async (req, res) => {
