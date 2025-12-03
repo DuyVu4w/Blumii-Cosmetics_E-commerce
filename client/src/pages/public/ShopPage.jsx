@@ -5,57 +5,6 @@ import ShopSidebar from "../../components/shared/ShopSidebar.jsx";
 import { useState } from "react";
 import { useEffect } from "react";
 
-// (Dữ liệu mẫu giữ nguyên...)
-const sampleProducts = [
-  {
-    id: 1,
-    imgSrc: "img/serum.jpg",
-    category: "Skincare",
-    name: "Grapes",
-    description: "Lorem ipsum dolor sit amet...",
-    price: 799000
-  },
-  {
-    id: 2,
-    imgSrc: "img/nuoctaytrang.jpg",
-    category: "Skincare",
-    name: "Grapes",
-    description: "Lorem ipsum dolor sit amet...",
-    price: 390000
-  },
-  {
-    id: 3,
-    imgSrc: "img/cushion.jpg",
-    category: "Makeup",
-    name: "Raspberries",
-    description: "Lorem ipsum dolor sit amet...",
-    price: 499000
-  },
-  {
-    id: 4,
-    imgSrc: "img/romand.jpg",
-    category: "Makeup",
-    name: "Apricots",
-    description: "Lorem ipsum dolor sit amet...",
-    price: 1000000,
-  },
-  {
-    id: 5,
-    imgSrc: "img/torriden.jpg",
-    category: "Skincare",
-    name: "Banana",
-    description: "Lorem ipsum dolor sit amet...",
-    price: 100000,
-  },
-  {
-    id: 6,
-    imgSrc: "img/torridenmask.jpg",
-    category: "Mask",
-    name: "Oranges",
-    description: "Lorem ipsum dolor sit amet...",
-    price: 99000
-  },
-];
 
 const ShopPage = () => {
   // === 1. KHAI BÁO STATE ===
@@ -70,42 +19,43 @@ const ShopPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-useEffect(() => {
+  useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        
+
         // Thay đường dẫn này bằng API thực tế của bạn (VD: http://localhost:5000/api/products)
         const response = await fetch('http://localhost:8080/api/products/', {
           method: "GET"
         });
-        
+
         if (!response.ok) {
           throw new Error("Can not get api");
         }
 
         const responseData = await response.json();
         const data = responseData.data || [] // lấy data từ respone hoặc mảng rỗng
-        
+
         const formattedData = data.map((item) => ({
           ...item,
           price: Number(item.price), // Ép kiểu số để lọc giá
           imgSrc: item.image[0],
           // Nếu DB trả về _id, gán nó vào id để frontend dùng
-          id: item.id || item._id, 
+          id: item.id || item._id,
         }));
 
         setAllProducts(formattedData); // Lưu vào danh sách gốc
         setProducts(formattedData);    // Lưu vào danh sách hiển thị ban đầu
       } catch (err) {
         setError(err.message);
+        console.log(error)
       } finally {
         setLoading(false);
       }
     };
 
     fetchProducts();
-  }, []); // [] rỗng nghĩa là chỉ chạy 1 lần khi mount
+  }, []); // [] rỗng nghĩa là chỉ chạy 1 lần khi 
 
   // lawgns nghe thay đổi
   useEffect(() => {
@@ -126,7 +76,7 @@ useEffect(() => {
       setProducts(filteredProducts);
     } else {
       // reset, hiển thị tất cả nếu không có từ khóa
-      setSearchInput(""); 
+      setSearchInput("");
       setProducts(allProducts);
     }
   }, [location.search, allProducts]); // Chạy lại mỗi khi URL thay đổi
@@ -142,6 +92,18 @@ useEffect(() => {
       handleLocalSearch();
     }
   };
+  
+  // hiển thị đang loading
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <h4 className="ms-3">Loading product...</h4>
+      </div>
+    );
+  }
 
   return (
     <>
