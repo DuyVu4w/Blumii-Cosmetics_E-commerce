@@ -12,19 +12,17 @@ const ProductCard = ({ imgSrc, category, name, description, price }) => {
   };
 
   return (
-    <div className="rounded position-relative fruite-item h-100 product-card-fixed">
-
-      <div className="fruite-img product-card-img">
+    <div className="rounded position-relative fruite-item h-100">
+      <div className="fruite-img">
         <img src={imgSrc} className="img-fluid w-100 rounded-top" alt={name} />
       </div>
-
       <div
         className="text-white bg-secondary px-3 py-1 rounded position-absolute"
         style={{ top: "10px", left: "10px" }}
       >
         {category}
       </div>
-      <div className="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column">
+      <div className="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column fruite-item-bottom">
         <Link to="/shop-detail">
           <h4 className="h5 fw-bold text-dark mb-2" title={name}>
             {truncateWords(name, 5)}
