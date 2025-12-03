@@ -58,19 +58,58 @@ const sampleProducts = [
 ];
 
 const ShopPage = () => {
-  const PRODUCTS_DATA = sampleProducts
+  // === 1. KHAI BÁO STATE ===
+  const [products, setProducts] = useState([]);       // Danh sách sản phẩm đang hiển thị (đã lọc)
+  const [allProducts, setAllProducts] = useState([]); // Danh sách GỐC lấy từ DB (để không bị mất khi lọc)
+  const [loading, setLoading] = useState(true);       // Trạng thái đang tải
+  const [error, setError] = useState(null);           // Trạng thái lỗi
 
-  // State danh sách sản phẩm hiển thị
-  const [products, setProducts] = useState(PRODUCTS_DATA);
-  
-  // State cho ô input tìm kiếm trong trang Shop
-  const [searchInput, setSearchInput] = useState(""); 
+  // State cho bộ lọc
+  const [searchInput, setSearchInput] = useState("");
 
   const location = useLocation();
-  const navigate = useNavigate(); // Hook để đổi URL
+  const navigate = useNavigate();
+
+useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        
+        // Thay đường dẫn này bằng API thực tế của bạn (VD: http://localhost:5000/api/products)
+        const response = await fetch('http://localhost:8080/api/products/', {
+          method: "GET"
+        });
+        
+        if (!response.ok) {
+          throw new Error("Can not get api");
+        }
+
+        const responseData = await response.json();
+        const data = responseData.data || [] // lấy data từ respone hoặc mảng rỗng
+        
+        const formattedData = data.map((item) => ({
+          ...item,
+          price: Number(item.price), // Ép kiểu số để lọc giá
+          imgSrc: item.image[0],
+          // Nếu DB trả về _id, gán nó vào id để frontend dùng
+          id: item.id || item._id, 
+        }));
+
+        setAllProducts(formattedData); // Lưu vào danh sách gốc
+        setProducts(formattedData);    // Lưu vào danh sách hiển thị ban đầu
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []); // [] rỗng nghĩa là chỉ chạy 1 lần khi mount
 
   // lawgns nghe thay đổi
   useEffect(() => {
+
     const searchParams = new URLSearchParams(location.search);
     const rawKeyword = searchParams.get("search");
 
@@ -80,7 +119,7 @@ const ShopPage = () => {
 
       // tìm kiếm sản phẩm theo tên
       const keyword = rawKeyword.toLowerCase().trim();
-      const filteredProducts = PRODUCTS_DATA.filter((item) => {
+      const filteredProducts = allProducts.filter((item) => {
         return item.name.toLowerCase().includes(keyword);
       });
 
@@ -88,9 +127,9 @@ const ShopPage = () => {
     } else {
       // reset, hiển thị tất cả nếu không có từ khóa
       setSearchInput(""); 
-      setProducts(PRODUCTS_DATA);
+      setProducts(allProducts);
     }
-  }, [location.search]); // Chạy lại mỗi khi URL thay đổi
+  }, [location.search, allProducts]); // Chạy lại mỗi khi URL thay đổi
 
   // Hàm tìm kiếm
   const handleLocalSearch = () => {
