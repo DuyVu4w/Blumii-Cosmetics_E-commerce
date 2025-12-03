@@ -39,7 +39,7 @@ function App() {
           <Route path="shop" element={<ShopPage />} />
           <Route path="shop-detail" element={<ShopDetailPage />} />
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="profile" element={<UserProfilePage />} />
+          <Route path="account" element={<UserProfilePage />} />
         </Route>
 
         {/* 4. Các Route KHÔNG CÓ Layout */}
