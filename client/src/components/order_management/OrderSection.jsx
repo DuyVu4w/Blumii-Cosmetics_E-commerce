@@ -220,7 +220,8 @@ const OrderSection = () => {
           <p className="no-orders">Không tìm thấy đơn hàng nào.</p>
         )}
       </div>
-    </section>
+      */}
+    </div>
   );
 };
 

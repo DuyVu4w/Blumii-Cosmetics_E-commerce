@@ -7,11 +7,11 @@ import AddressModal from '../../components/shared/AddressModal';
 AddressModal.propTypes = { isOpen: PropTypes.bool, onClose: PropTypes.func, onSave: PropTypes.func };
 
 const AuthStyles = () => {
-    const COLOR_PRIMARY = '#81c408'; 
-    const COLOR_SECONDARY = '#FFB524'; 
+  const COLOR_PRIMARY = "#81c408";
+  const COLOR_SECONDARY = "#FFB524";
 
-    return (
-        <style>{`
+  return (
+    <style>{`
             @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
             .auth-wrapper * { box-sizing: border-box; }
@@ -104,205 +104,316 @@ const AuthStyles = () => {
                 transition: border-color 0.3s;
             }
             .auth-wrapper .social-container a:hover { border-color: #FFB524; }
+            .auth-wrapper .container {
+            width: 1200px;
+            min-height: 600px;
+            }
+            @media(max-width: 1400px) {
+            .auth-wrapper .container {
+                width: 700px;
+            }
+            }
+            @media(max-width: 768px) {
+            .auth-wrapper .container {
+                width: 100%;
+                min-height: 100vh;
+                border-radius: 0;
+            }
+            }
+
         `}</style>
-    );
+  );
 };
 
 const AuthPage = () => {
-    const [isPanelActive, setIsPanelActive] = useState(false);
-    const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false); // State cho Loader
-    const navigate = useNavigate();
-    const location = useLocation();
-    
-    // Lấy token từ URL nếu có (Redirect từ Google)
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const params = new URLSearchParams(window.location.search);
-            const token = params.get('token');
-            if (token) {
-                localStorage.setItem('auth_token', token);
-                window.history.replaceState({}, document.title, window.location.pathname);
-                // alert("Đăng nhập Google thành công!"); // Tùy chọn
-                navigate('/account'); 
-            }
+  const [isPanelActive, setIsPanelActive] = useState(false);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Kiểm tra token khi component mount và lấy token từ URL (Google Redirect)
+  useEffect(() => {
+    // 1. Kiểm tra token trong localStorage (Đã đăng nhập từ trước)
+    const storedToken = localStorage.getItem("auth_token");
+    if (storedToken) {
+      navigate("/profile"); // Chuyển hướng đến trang Profile
+      return;
+    }
+
+    // 2. Kiểm tra token từ URL (Redirect từ Google Login)
+    const params = new URLSearchParams(location.search);
+    const tokenFromUrl = params.get("token");
+
+    if (tokenFromUrl) {
+      localStorage.setItem("auth_token", tokenFromUrl);
+      // Xóa token khỏi URL để clean bar
+      window.history.replaceState({}, document.title, window.location.pathname);
+      alert("Đăng nhập Google thành công!");
+      navigate("/account"); // Chuyển hướng đến trang Profile
+    }
+  }, [location, navigate]);
+
+  const [signUpData, setSignUpData] = useState({
+    customer_name: "",
+    phone_number: "",
+    email: "",
+    address: "",
+  });
+
+  const [signInData, setSignInData] = useState({ email: "", password: "" });
+
+  const handleSignUpClick = () => {
+    setIsPanelActive(true);
+    setError(null);
+  };
+  const handleSignInClick = () => {
+    setIsPanelActive(false);
+    setError(null);
+  };
+
+  const openAddressModal = () => setIsAddressModalOpen(true);
+  const closeAddressModal = () => setIsAddressModalOpen(false);
+
+  const handleAddressSave = (address) => {
+    const { street, ward, district, province } = address;
+    const formattedAddress = [street, ward, district, province]
+      .filter(Boolean)
+      .join(", ");
+    setSignUpData((prev) => ({ ...prev, address: formattedAddress }));
+    closeAddressModal();
+  };
+
+  const handleSignupChange = (e) => {
+    setSignUpData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleLoginChange = (e) => {
+    setSignInData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  // ĐĂNG KÝ
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setError(null);
+    const { customer_name, phone_number, email, address } = signUpData;
+
+    if (!customer_name || !phone_number || !email || !address)
+      return setError("Please fill in all required fields.");
+
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(signUpData),
+      });
+
+      const contentType = response.headers.get("content-type");
+      let data;
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        data = await response.json();
+      } else {
+        throw new Error(
+          `Lỗi Server (${response.status}): Không nhận được JSON.`
+        );
+      }
+
+      if (data.success) {
+        alert("Đăng ký thành công!");
+        // Lưu token ngay lập tức (Tự động đăng nhập)
+        if (data.token) {
+          localStorage.setItem("auth_token", data.token);
+          navigate("/account"); // Chuyển hướng đến trang Profile
+        } else {
+          // Fallback nếu BE không trả token (dù code BE đã có)
+          handleSignInClick();
         }
-    }, [location, navigate]);
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      console.error("Lỗi Đăng ký:", err);
+      setError(`Đăng ký thất bại: ${err.message}`);
+    }
+  };
 
-    const [signUpData, setSignUpData] = useState({
-        customer_name: '', phone_number: '', email: '', address: ''
-    });
+  // ĐĂNG NHẬP
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(signInData),
+      });
 
-    const [signInData, setSignInData] = useState({ email: '', password: '' });
+      const contentType = response.headers.get("content-type");
+      let data;
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        data = await response.json();
+      } else {
+        throw new Error(`Lỗi kết nối (${response.status}). Kiểm tra Proxy.`);
+      }
 
-    const handleSignUpClick = () => { setIsPanelActive(true); setError(null); }
-    const handleSignInClick = () => { setIsPanelActive(false); setError(null); }
+      if (data.success) {
+        alert("Login Successfully!");
+        localStorage.setItem("auth_token", data.token);
+        navigate("/account"); // Chuyển hướng đến trang Profile
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      console.error("Login Error:", err);
+      setError(`Đăng nhập thất bại: ${err.message}`);
+    }
+  };
 
-    const openAddressModal = () => setIsAddressModalOpen(true);
-    const closeAddressModal = () => setIsAddressModalOpen(false);
+  const containerClassName = `container ${
+    isPanelActive ? "right-panel-active" : ""
+  }`;
 
-    const handleAddressSave = (address) => {
-        const { street, ward, district, province } = address;
-        const formattedAddress = [street, ward, district, province].filter(Boolean).join(', ');
-        setSignUpData(prev => ({ ...prev, address: formattedAddress }));
-        closeAddressModal();
-    };
-
-    const handleSignupChange = (e) => {
-        setSignUpData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    };
-
-    const handleLoginChange = (e) => {
-        setSignInData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    };
-
-    // ĐĂNG KÝ
-    const handleSignUp = async (e) => {
-        e.preventDefault();
-        setError(null);
-        
-        const { customer_name, phone_number, email, address } = signUpData;
-
-        if (!customer_name || !phone_number || !email || !address) return setError("Vui lòng điền đầy đủ thông tin.");
-        
-        setIsLoading(true); // Bắt đầu loading
-        try {
-            const response = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(signUpData)
-            });
-
-            const contentType = response.headers.get("content-type");
-            let data;
-            if (contentType && contentType.indexOf("application/json") !== -1) {
-                data = await response.json();
-            } else {
-                throw new Error(`Lỗi Server (${response.status}): Không nhận được JSON.`);
-            }
-
-            if (data.success) {
-                alert("Đăng ký thành công! Mật khẩu đã được gửi về email của bạn.");
-                if (data.token) {
-                    localStorage.setItem('auth_token', data.token);
-                    navigate('/account'); 
-                } else {
-                    handleSignInClick(); 
-                }
-            } else {
-                setError(data.message);
-            }
-        } catch (err) {
-            console.error("Lỗi Đăng ký:", err);
-            setError(`Đăng ký thất bại: ${err.message}`);
-        } finally {
-            setIsLoading(false); // Kết thúc loading
-        }
-    };
-
-    // ĐĂNG NHẬP
-    const handleSignIn = async (e) => {
-        e.preventDefault();
-        setError(null);
-        
-        setIsLoading(true); // Bắt đầu loading
-        try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(signInData)
-            });
-            
-            const contentType = response.headers.get("content-type");
-            let data;
-            if (contentType && contentType.indexOf("application/json") !== -1) {
-                data = await response.json();
-            } else {
-                throw new Error(`Lỗi kết nối (${response.status}). Kiểm tra Proxy.`);
-            }
-
-            if (data.success) {
-                localStorage.setItem('auth_token', data.token);
-                navigate('/account'); 
-            } else {
-                setError(data.message);
-            }
-        } catch (err) {
-            console.error("Lỗi Đăng nhập:", err);
-            setError(`Đăng nhập thất bại: ${err.message}`);
-        } finally {
-            setIsLoading(false); // Kết thúc loading
-        }
-    };
-
-    const containerClassName = `container ${isPanelActive ? 'right-panel-active' : ''}`;
-
-    return (
-        <div className="auth-wrapper">
-            <AuthStyles />
-
-            {/* Hiển thị Loader nếu isLoading là true */}
-            {isLoading && <Loader />}
-
-            <div className={containerClassName} id="container">
-                {/* Sign Up */}
-                <div className="form-container sign-up-container">
-                    <form onSubmit={handleSignUp}>
-                        <h1>Tạo tài khoản</h1>
-                        <div className="social-container">
-                            <a href="http://localhost:3000/api/auth/google" className="social" title="Đăng ký bằng Google">
-                                <i className="fab fa-google-plus-g"></i>
-                            </a>
-                        </div>
-                        <span>hoặc sử dụng email của bạn để đăng ký</span>
-                        <input type="text" placeholder="Họ và Tên" name="customer_name" value={signUpData.customer_name} onChange={handleSignupChange} required />
-                        <input type="tel" placeholder="Số điện thoại" name="phone_number" value={signUpData.phone_number} onChange={handleSignupChange} required />
-                        <input type="email" placeholder="Email" name="email" value={signUpData.email} onChange={handleSignupChange} required />
-                        <input type="text" placeholder="Địa chỉ giao hàng (Nhấn để chọn)" onFocus={openAddressModal} value={signUpData.address} readOnly required />
-                        {error && isPanelActive && <p style={{ color: 'red', fontSize: '12px' }}>{error}</p>}
-                        <button style={{ marginTop: '12px' }} type="submit">Đăng ký</button>
-                    </form>
-                </div>
-
-                {/* Sign In */}
-                <div className="form-container sign-in-container">
-                    <form onSubmit={handleSignIn}>
-                        <h1>Đăng nhập</h1>
-                        <div className="social-container">
-                            <a href="http://localhost:3000/api/auth/google" className="social" title="Đăng nhập bằng Google">
-                                <i className="fab fa-google-plus-g"></i>
-                            </a>
-                        </div>
-                        <span>hoặc sử dụng tài khoản của bạn</span>
-                        <input type="email" placeholder="Email" name="email" value={signInData.email} onChange={handleLoginChange} required />
-                        <input type="password" placeholder="Mật khẩu" name="password" value={signInData.password} onChange={handleLoginChange} required />
-                        <a href="#">Quên mật khẩu?</a>
-                        {error && !isPanelActive && <p style={{ color: 'red', fontSize: '12px' }}>{error}</p>}
-                        <button type="submit">Đăng nhập</button>
-                    </form>
-                </div>
-
-                {/* Overlay */}
-                <div className="overlay-container">
-                    <div className="overlay">
-                        <div className="overlay-panel overlay-left">
-                            <h1>Chào mừng trở lại!</h1>
-                            <p>Để giữ kết nối, vui lòng đăng nhập bằng thông tin cá nhân của bạn</p>
-                            <button className="ghost" id="signIn" type="button" onClick={handleSignInClick}>Đăng nhập</button>
-                        </div>
-                        <div className="overlay-panel overlay-right">
-                            <h1>Xin chào!</h1>
-                            <p>Nhập thông tin cá nhân của bạn và bắt đầu hành trình với chúng tôi</p>
-                            <button className="ghost" id="signUp" type="button" onClick={handleSignUpClick}>Đăng ký</button>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div className="auth-wrapper">
+      <AuthStyles />
+      <div className={containerClassName} id="container">
+        {/* Sign Up */}
+        <div className="form-container sign-up-container">
+          <form onSubmit={handleSignUp}>
+            <h1>Create Account</h1>
+            <div className="social-container">
+              {/* Link tới API Google của Backend */}
+              <a
+                href="http://localhost:8080/api/auth/google"
+                className="social"
+                title="Sign up with Google"
+              >
+                <i className="fab fa-google-plus-g"></i>
+              </a>
             </div>
-
-            <AddressModal isOpen={isAddressModalOpen} onClose={closeAddressModal} onSave={handleAddressSave} />
+            <span>or use your Email to Sign Up</span>
+            <input
+              type="text"
+              placeholder="Full name"
+              name="customer_name"
+              value={signUpData.customer_name}
+              onChange={handleSignupChange}
+              required
+            />
+            <input
+              type="tel"
+              placeholder="Phone number"
+              name="phone_number"
+              value={signUpData.phone_number}
+              onChange={handleSignupChange}
+              required
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={signUpData.email}
+              onChange={handleSignupChange}
+              required
+            />
+            <input
+              type="text"
+              placeholder="Address"
+              onFocus={openAddressModal}
+              value={signUpData.address}
+              readOnly
+              required
+            />
+            {error && isPanelActive && (
+              <p style={{ color: "red", fontSize: "12px" }}>{error}</p>
+            )}
+            <button style={{ marginTop: "12px" }} type="submit">
+              Sign Up
+            </button>
+          </form>
         </div>
-    );
+
+        {/* Sign In */}
+        <div className="form-container sign-in-container">
+          <form onSubmit={handleSignIn}>
+            <h1>Login Account</h1>
+            <div className="social-container">
+              <a
+                href="http://localhost:3000/api/auth/google"
+                className="social"
+                title="Login with Google"
+              >
+                <i className="fab fa-google-plus-g"></i>
+              </a>
+            </div>
+            <span>or use your account</span>
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              value={signInData.email}
+              onChange={handleLoginChange}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              value={signInData.password}
+              onChange={handleLoginChange}
+              required
+            />
+            <a href="#">Forgot password?</a>
+            {error && !isPanelActive && (
+              <p style={{ color: "red", fontSize: "12px" }}>{error}</p>
+            )}
+            <button type="submit">Login</button>
+          </form>
+        </div>
+
+        {/* Overlay */}
+        <div className="overlay-container">
+          <div className="overlay">
+            <div className="overlay-panel overlay-left">
+              <h1>Welcome to comeback!</h1>
+              <p>
+                To stay connected, please log in with your personal information
+              </p>
+              <button
+                className="ghost"
+                id="signIn"
+                type="button"
+                onClick={handleSignInClick}
+              >
+                Login
+              </button>
+            </div>
+            <div className="overlay-panel overlay-right">
+              <h1>Hello!</h1>
+              <p>
+                Please enter your information to connect with us and enjoy more
+                😜
+              </p>
+              <button
+                className="ghost"
+                id="signUp"
+                type="button"
+                onClick={handleSignUpClick}
+              >
+                Sign Up
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <AddressModal
+        isOpen={isAddressModalOpen}
+        onClose={closeAddressModal}
+        onSave={handleAddressSave}
+      />
+    </div>
+  );
 };
 
 export default AuthPage;
