@@ -129,28 +129,27 @@ const AuthPage = () => {
   const [isPanelActive, setIsPanelActive] = useState(false);
   const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
   const [error, setError] = useState(null);
+  // 1. Thêm state loading
+  const [isLoading, setIsLoading] = useState(false); 
+  
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Kiểm tra token khi component mount và lấy token từ URL (Google Redirect)
   useEffect(() => {
-    // 1. Kiểm tra token trong localStorage (Đã đăng nhập từ trước)
     const storedToken = localStorage.getItem("auth_token");
     if (storedToken) {
-      navigate("/profile"); // Chuyển hướng đến trang Profile
+      navigate("/account");
       return;
     }
 
-    // 2. Kiểm tra token từ URL (Redirect từ Google Login)
     const params = new URLSearchParams(location.search);
     const tokenFromUrl = params.get("token");
 
     if (tokenFromUrl) {
       localStorage.setItem("auth_token", tokenFromUrl);
-      // Xóa token khỏi URL để clean bar
       window.history.replaceState({}, document.title, window.location.pathname);
       alert("Đăng nhập Google thành công!");
-      navigate("/account"); // Chuyển hướng đến trang Profile
+      navigate("/account");
     }
   }, [location, navigate]);
 
@@ -196,10 +195,16 @@ const AuthPage = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError(null);
+    
+    // 2. Bật loading
+    setIsLoading(true); 
+
     const { customer_name, phone_number, email, address } = signUpData;
 
-    if (!customer_name || !phone_number || !email || !address)
-      return setError("Please fill in all required fields.");
+    if (!customer_name || !phone_number || !email || !address) {
+      setIsLoading(false);
+      return setError("Vui lòng điền đầy đủ thông tin.");
+    }
 
     try {
       const response = await fetch("/api/auth/register", {
@@ -219,13 +224,11 @@ const AuthPage = () => {
       }
 
       if (data.success) {
-        alert("Đăng ký thành công!");
-        // Lưu token ngay lập tức (Tự động đăng nhập)
+        alert("Đăng ký thành công! Mật khẩu đã gửi về email.");
         if (data.token) {
           localStorage.setItem("auth_token", data.token);
-          navigate("/account"); // Chuyển hướng đến trang Profile
+          navigate("/account");
         } else {
-          // Fallback nếu BE không trả token (dù code BE đã có)
           handleSignInClick();
         }
       } else {
@@ -234,6 +237,9 @@ const AuthPage = () => {
     } catch (err) {
       console.error("Lỗi Đăng ký:", err);
       setError(`Đăng ký thất bại: ${err.message}`);
+    } finally {
+        // 3. Tắt loading dù thành công hay thất bại
+        setIsLoading(false); 
     }
   };
 
@@ -241,6 +247,10 @@ const AuthPage = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     setError(null);
+    
+    // 2. Bật loading
+    setIsLoading(true);
+
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -257,15 +267,17 @@ const AuthPage = () => {
       }
 
       if (data.success) {
-        alert("Login Successfully!");
         localStorage.setItem("auth_token", data.token);
-        navigate("/account"); // Chuyển hướng đến trang Profile
+        navigate("/account"); 
       } else {
         setError(data.message);
       }
     } catch (err) {
       console.error("Login Error:", err);
-      setError(`Đăng nhập thất bại: ${err.message}`);
+      setError(`Login failed: ${err.message}`);
+    } finally {
+        // 3. Tắt loading
+        setIsLoading(false); 
     }
   };
 
@@ -276,25 +288,28 @@ const AuthPage = () => {
   return (
     <div className="auth-wrapper">
       <AuthStyles />
+
+      {/* 4. Hiển thị Loader nếu đang loading */}
+      {isLoading && <Loader />}
+
       <div className={containerClassName} id="container">
         {/* Sign Up */}
         <div className="form-container sign-up-container">
           <form onSubmit={handleSignUp}>
-            <h1>Create Account</h1>
+            <h1>Create an account</h1>
             <div className="social-container">
-              {/* Link tới API Google của Backend */}
               <a
-                href="http://localhost:8080/api/auth/google"
+                href="http://localhost:3000/api/auth/google"
                 className="social"
                 title="Sign up with Google"
               >
                 <i className="fab fa-google-plus-g"></i>
               </a>
             </div>
-            <span>or use your Email to Sign Up</span>
+            <span>or use your email to sign up</span>
             <input
               type="text"
-              placeholder="Full name"
+              placeholder="Fullname"
               name="customer_name"
               value={signUpData.customer_name}
               onChange={handleSignupChange}
@@ -328,7 +343,7 @@ const AuthPage = () => {
               <p style={{ color: "red", fontSize: "12px" }}>{error}</p>
             )}
             <button style={{ marginTop: "12px" }} type="submit">
-              Sign Up
+              Register
             </button>
           </form>
         </div>
@@ -336,7 +351,7 @@ const AuthPage = () => {
         {/* Sign In */}
         <div className="form-container sign-in-container">
           <form onSubmit={handleSignIn}>
-            <h1>Login Account</h1>
+            <h1>Login</h1>
             <div className="social-container">
               <a
                 href="http://localhost:3000/api/auth/google"
@@ -346,7 +361,7 @@ const AuthPage = () => {
                 <i className="fab fa-google-plus-g"></i>
               </a>
             </div>
-            <span>or use your account</span>
+            <span>or use the account</span>
             <input
               type="email"
               placeholder="Email"
@@ -400,7 +415,7 @@ const AuthPage = () => {
                 type="button"
                 onClick={handleSignUpClick}
               >
-                Sign Up
+                Register
               </button>
             </div>
           </div>
