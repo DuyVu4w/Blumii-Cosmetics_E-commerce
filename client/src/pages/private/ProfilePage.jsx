@@ -2,18 +2,11 @@ import React, { useState, useEffect } from 'react';
 import AddressModal from '../../components/shared/AddressModal';
 import PropTypes from 'prop-types';
 
-// =========================================================================
-// COMPONENT CON: AddressModal & Styles (Đã nhúng trực tiếp)
-// =========================================================================
 AddressModal.propTypes = {
     isOpen: PropTypes.bool,
     onClose: PropTypes.func,
     onSave: PropTypes.func
 };
-
-// =========================================================================
-// COMPONENT CHÍNH: ProfilePage
-// =========================================================================
 
 const ProfilePage = () => {
     const [user, setUser] = useState(null);
