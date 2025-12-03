@@ -130,12 +130,6 @@ const Header = () => {
                   <Link to="/404" className="dropdown-item">
                     Jullydol
                   </Link>
-                  <Link to="/404" className="dropdown-item">
-                    Bath & Body Works
-                  </Link>
-                  <Link to="/404" className="dropdown-item">
-                    Cocoon
-                  </Link>
                 </div>
               </div>
               <NavLink to="/contact" className={getNavLinkClass}>Contact</NavLink>
