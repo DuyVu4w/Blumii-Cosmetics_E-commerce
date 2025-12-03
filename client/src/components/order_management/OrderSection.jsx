@@ -1,94 +1,45 @@
-import React, { useState } from "react";
+import React from "react";
 
 const OrderSection = () => {
-  // State lưu bộ lọc
-  const [filter, setFilter] = useState("all");
-
-  // Data giả lập
-  const orders = [
-    {
-      id: "#ORD001",
-      date: "02/11/2025",
-      total: "450.000₫",
-      address: "Tân Phong, Quận 7, TP.HCM",
-      status: "processing",
-    },
-    {
-      id: "#ORD002",
-      date: "25/10/2025",
-      total: "320.000₫",
-      address: "ĐH Tôn Đức Thắng",
-      status: "delivered",
-    },
-    {
-      id: "#ORD003",
-      date: "20/10/2025",
-      total: "275.000₫",
-      address: "Phường Linh Trung, Thủ Đức",
-      status: "canceled",
-    },
-  ];
-
-  // Lọc theo trạng thái
-  const filteredOrders =
-    filter === "all"
-      ? orders
-      : orders.filter((order) => order.status === filter);
-
   return (
-    <section className="section">
-      <h2>My Orders</h2>
-
-      {/* Bộ lọc trạng thái */}
-      <div className="order-filters">
-        {["all", "processing", "delivered", "canceled"].map((status) => (
-          <button
-            key={status}
-            className={`filter-btn ${filter === status ? "active" : ""}`}
-            onClick={() => setFilter(status)}
-          >
-            {status === "all"
-              ? "All"
-              : status === "processing"
-              ? "Processing"
-              : status === "delivered"
-              ? "Delivered"
-              : "Canceled"}
-          </button>
-        ))}
+    <div>
+      <h2 className="fw-bold mb-4 pb-2 border-bottom" style={{ color: "#81c408" }}>My Orders</h2>
+      
+      {/* Placeholder Content */}
+      <div className="text-center py-5 text-muted">
+        <i className="fas fa-box-open fa-4x mb-3 text-secondary opacity-50"></i>
+        <h4>No orders yet</h4>
+        <p>You haven't placed any orders yet. Go to the shop and find something you like!</p>
+        <a href="/shop" className="btn text-white mt-2" style={{ backgroundColor: "#81c408" }}>
+            Go to Shop
+        </a>
       </div>
 
-      {/* Danh sách đơn hàng */}
-      <div className="order-list">
-        {filteredOrders.length > 0 ? (
-          filteredOrders.map((order) => (
-            <div key={order.id} className={`order-card ${order.status}`}>
-              <div className="order-header">
-                <span>Order Code: {order.id}</span>
-                <span className={`status ${order.status}`}>
-                  {order.status === "processing"
-                    ? "Processing"
-                    : order.status === "delivered"
-                    ? "Delivered"
-                    : "Canceled"}
-                </span>
-              </div>
-              <p>
-                <b>Order Date:</b> {order.date}
-              </p>
-              <p>
-                <b>Total Amount:</b> {order.total}
-              </p>
-              <p>
-                <b>Address:</b> {order.address}
-              </p>
-            </div>
-          ))
-        ) : (
-          <p className="no-orders">Không có đơn hàng nào.</p>
-        )}
+      {/* Example Table Structure (Hidden when empty) */}
+      {/* <div className="table-responsive">
+        <table className="table table-hover align-middle">
+            <thead className="table-light">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#ORD-001</td>
+                    <td>Dec 12, 2025</td>
+                    <td><span className="badge bg-success">Completed</span></td>
+                    <td>$120.00</td>
+                    <td><button className="btn btn-sm btn-outline-primary">View</button></td>
+                </tr>
+            </tbody>
+        </table>
       </div>
-    </section>
+      */}
+    </div>
   );
 };
 

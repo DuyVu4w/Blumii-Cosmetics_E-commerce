@@ -1,19 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom"; // Thêm hooks router
-import PropTypes from "prop-types";
-import AddressModal from "../../components/shared/AddressModal";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom'; 
+import PropTypes from 'prop-types';
+import Loader from '../../components/shared/Loader';
+import AddressModal from '../../components/shared/AddressModal';
 
-AddressModal.propTypes = {
-  isOpen: PropTypes.bool,
-  onClose: PropTypes.func,
-  onSave: PropTypes.func,
-};
+AddressModal.propTypes = { isOpen: PropTypes.bool, onClose: PropTypes.func, onSave: PropTypes.func };
 
-/**
- * =========================================================================
- * 2. COMPONENT: AuthPage & Styles
- * =========================================================================
- */
 const AuthStyles = () => {
   const COLOR_PRIMARY = "#81c408";
   const COLOR_SECONDARY = "#FFB524";

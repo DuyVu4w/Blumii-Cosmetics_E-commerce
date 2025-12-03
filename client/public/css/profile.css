@@ -8,8 +8,7 @@
   margin: 0;
   padding: 0;
   color: #45595b;
-  padding-top: 120px; /* tránh header đè */
-  /* tránh footer che */
+  padding-top: 120px !important;
   min-height: 70vh;
 }
 
