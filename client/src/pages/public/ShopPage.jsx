@@ -1,61 +1,110 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/shared/ProductCard.jsx";
 import ShopSidebar from "../../components/shared/ShopSidebar.jsx";
+import { useState } from "react";
+import { useEffect } from "react";
 
-// (Dữ liệu mẫu giữ nguyên...)
-const sampleProducts = [
-  {
-    id: 1,
-    imgSrc: "img/serum.jpg",
-    category: "Skincare",
-    name: "Grapes",
-    description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
-  },
-  {
-    id: 2,
-    imgSrc: "img/nuoctaytrang.jpg",
-    category: "Skincare",
-    name: "Grapes",
-    description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
-  },
-  {
-    id: 3,
-    imgSrc: "img/cushion.jpg",
-    category: "Makeup",
-    name: "Raspberries",
-    description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
-  },
-  {
-    id: 4,
-    imgSrc: "img/romand.jpg",
-    category: "Makeup",
-    name: "Apricots",
-    description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
-  },
-  {
-    id: 5,
-    imgSrc: "img/torriden.jpg",
-    category: "Skincare",
-    name: "Banana",
-    description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
-  },
-  {
-    id: 6,
-    imgSrc: "img/torridenmask.jpg",
-    category: "Mask",
-    name: "Oranges",
-    description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
-  },
-];
 
 const ShopPage = () => {
+  // === 1. KHAI BÁO STATE ===
+  const [products, setProducts] = useState([]);       // Danh sách sản phẩm đang hiển thị (đã lọc)
+  const [allProducts, setAllProducts] = useState([]); // Danh sách GỐC lấy từ DB (để không bị mất khi lọc)
+  const [loading, setLoading] = useState(true);       // Trạng thái đang tải
+  const [error, setError] = useState(null);           // Trạng thái lỗi
+
+  // State cho bộ lọc
+  const [searchInput, setSearchInput] = useState("");
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+
+        // Thay đường dẫn này bằng API thực tế của bạn (VD: http://localhost:5000/api/products)
+        const response = await fetch('http://localhost:8080/api/products/', {
+          method: "GET"
+        });
+
+        if (!response.ok) {
+          throw new Error("Can not get api");
+        }
+
+        const responseData = await response.json();
+        const data = responseData.data || [] // lấy data từ respone hoặc mảng rỗng
+
+        const formattedData = data.map((item) => ({
+          ...item,
+          price: Number(item.price), // Ép kiểu số để lọc giá
+          imgSrc: item.image[0],
+          // Nếu DB trả về _id, gán nó vào id để frontend dùng
+          id: item.id || item._id,
+        }));
+
+        setAllProducts(formattedData); // Lưu vào danh sách gốc
+        setProducts(formattedData);    // Lưu vào danh sách hiển thị ban đầu
+      } catch (err) {
+        setError(err.message);
+        console.log(error)
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []); // [] rỗng nghĩa là chỉ chạy 1 lần khi 
+
+  // lawgns nghe thay đổi
+  useEffect(() => {
+
+    const searchParams = new URLSearchParams(location.search);
+    const rawKeyword = searchParams.get("search");
+
+    if (rawKeyword) {
+      // đồng bộ từ khóa với input search 
+      setSearchInput(rawKeyword);
+
+      // tìm kiếm sản phẩm theo tên
+      const keyword = rawKeyword.toLowerCase().trim();
+      const filteredProducts = allProducts.filter((item) => {
+        return item.name.toLowerCase().includes(keyword);
+      });
+
+      setProducts(filteredProducts);
+    } else {
+      // reset, hiển thị tất cả nếu không có từ khóa
+      setSearchInput("");
+      setProducts(allProducts);
+    }
+  }, [location.search, allProducts]); // Chạy lại mỗi khi URL thay đổi
+
+  // Hàm tìm kiếm
+  const handleLocalSearch = () => {
+    // Đẩy từ khóa lên URL -> useEffect ở trên sẽ tự động chạy để filter
+    navigate(`?search=${encodeURIComponent(searchInput)}`);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleLocalSearch();
+    }
+  };
+  
+  // hiển thị đang loading
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <h4 className="ms-3">Loading product...</h4>
+      </div>
+    );
+  }
+
   return (
     <>
       {/* (Banner Header ... giữ nguyên) */}
@@ -85,8 +134,11 @@ const ShopPage = () => {
                       className="form-control p-3"
                       placeholder="keywords"
                       aria-describedby="search-icon-1"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      onKeyDown={handleKeyDown} // Nhấn Enter
                     />
-                    <span id="search-icon-1" className="input-group-text p-3">
+                    <span id="search-icon-1" className="input-group-text p-3" onClick={handleLocalSearch} style={{ cursor: "pointer" }}>
                       <i className="fa fa-search"></i>
                     </span>
                   </div>
@@ -119,7 +171,7 @@ const ShopPage = () => {
                 {/* Product Grid (Cột bên phải) */}
                 <div className="col-lg-9">
                   <div className="row g-4 justify-content-center">
-                    {sampleProducts.map((product) => (
+                    {products.map((product) => (
                       <div
                         key={product.id}
                         className="col-md-6 col-lg-6 col-xl-4"

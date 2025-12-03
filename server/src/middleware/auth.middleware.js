@@ -5,7 +5,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_strong_jwt_secret';
 
 const verifyToken = (req, res, next) => {
     const token = req.headers['x-access-token'] || req.headers['authorization']; 
-    // Token format: "Bearer <token>"
 
     if (!token) {
         return res.status(403).json({ success: false, message: 'Không có token, quyền truy cập bị từ chối.' });

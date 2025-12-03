@@ -2,11 +2,29 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const ProductCard = ({ imgSrc, category, name, description, price }) => {
+const ProductCard = ({id, imgSrc, category, name, description, price }) => {
+
+  const truncateWords = (str, numWords) => {
+    if (!str) return "";
+    const words = str.split(" ");
+    if (words.length <= numWords) return str;
+    return words.slice(0, numWords).join(" ") + "...";
+  };
+
+  const displayImage = Array.isArray(imgSrc) ? imgSrc[0] : imgSrc;
+
   return (
     <div className="rounded position-relative fruite-item h-100">
       <div className="fruite-img">
-        <img src={imgSrc} className="img-fluid w-100 rounded-top" alt={name} />
+        <Link to={`/shop-detail/${id}`}>
+          <img
+            src={displayImage}
+            className="img-fluid w-100 rounded-top"
+            alt={name}
+            style={{ height: '250px', objectFit: 'cover', width: '100%' }}
+            onError={(e) => { e.target.src = 'https://placehold.co/300x300?text=No+Image'; }}
+          />
+        </Link>
       </div>
       <div
         className="text-white bg-secondary px-3 py-1 rounded position-absolute"
@@ -14,11 +32,17 @@ const ProductCard = ({ imgSrc, category, name, description, price }) => {
       >
         {category}
       </div>
-      <div className="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column">
+      <div className="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column fruite-item-bottom">
         <Link to="/shop-detail">
-          <h4>{name}</h4>
+          <Link to={`/shop-detail/${id}`} className="text-decoration-none">
+            <h4 className="h5 fw-bold text-dark mb-2 hover-primary" title={name}>
+              {truncateWords(name, 5)}
+            </h4>
+          </Link>
         </Link>
-        <p>{description}</p>
+        <p className="text-muted mb-3" style={{ fontSize: '14px', minHeight: '42px' }} title={description}>
+          {truncateWords(description, 15)}
+        </p>
         <div className="d-flex justify-content-between flex-lg-wrap mt-auto">
           <p className="text-dark fs-5 fw-bold mb-0">{price}</p>
           <button
@@ -34,6 +58,7 @@ const ProductCard = ({ imgSrc, category, name, description, price }) => {
 };
 
 ProductCard.propTypes = {
+  id: PropTypes.string.isRequired,
   imgSrc: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

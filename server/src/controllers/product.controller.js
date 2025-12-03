@@ -1,25 +1,46 @@
 const Product = require('../models/Product.model');
 
+// [GET] /api/products
+exports.getAllProducts = async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.json({ success: true, data: products });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// [GET] /api/products/:id
+exports.getProductById = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) {
+            return res.status(404).json({ success: false, message: 'Không tìm thấy sản phẩm' });
+        }
+        res.json({ success: true, data: product });
+    } catch (error) {
+        // Lỗi CastError xảy ra khi ID không đúng định dạng MongoDB
+        if (error.name === 'CastError') {
+            return res.status(400).json({ success: false, message: 'ID sản phẩm không hợp lệ' });
+        }
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+// [POST] /api/products/addProduct
 exports.createProduct = async (req, res) => {
     try {
         const {
-            name,
-            brand,
-            category,
-            description,
-            image,
-            price,
-            marketPrice,
-            countInStock,
-            origin,
-            ingredients,
-            mainPurpose,
-            expirationDate
+            name, brand, category, description, image, price, 
+            marketPrice, countInStock, origin, ingredients, 
+            mainPurpose, expirationDate
         } = req.body;
+
+        // Validation cơ bản
         if (!name || !brand || !category || !description || !price || !countInStock || !marketPrice) {
             return res.status(400).json({
                 status: 'ERR',
-                message: 'Please complete form (Name, Brand, Category, Prices, Stock...)'
+                message: 'Vui lòng điền đầy đủ thông tin bắt buộc (Tên, Thương hiệu, Danh mục, Giá, Tồn kho...)'
             });
         }
 
@@ -27,11 +48,11 @@ exports.createProduct = async (req, res) => {
         if (checkProduct) {
             return res.status(400).json({
                 status: 'ERR',
-                message: 'Product name was exist'
+                message: 'Tên sản phẩm đã tồn tại'
             });
         }
 
-        // Slug sẽ được tự động tạo nếu bạn đã cài plugin mongoose-slug-updater
+        // Tạo sản phẩm mới
         const newProduct = await Product.create({
             name,
             brand,
@@ -41,13 +62,12 @@ exports.createProduct = async (req, res) => {
             mainPurpose,
             expirationDate,
             description,
-            image, //  mảng các đường link ảnh (Array Strings)
+            image, // image nên là mảng []
             price,
             marketPrice,
             countInStock
         });
 
-        // Trả về kết quả thành công
         return res.status(201).json({
             status: 'OK',
             message: 'Tạo sản phẩm thành công',
@@ -55,7 +75,6 @@ exports.createProduct = async (req, res) => {
         });
 
     } catch (e) {
-        // Xử lý lỗi từ server hoặc lỗi Validate từ Mongoose
         return res.status(500).json({
             status: 'ERR',
             message: e.message || 'Lỗi server'
@@ -63,6 +82,3 @@ exports.createProduct = async (req, res) => {
     }
 };
 
-// module.exports = {
-//     createProduct
-// };
