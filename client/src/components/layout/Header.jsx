@@ -131,6 +131,9 @@ const Header = () => {
                   <Link to="/404" className="dropdown-item">
                     Innisfree
                   </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Jullydol
+                  </Link>
                 </div>
               </div>
               <NavLink to="/contact" className={getNavLinkClass}>

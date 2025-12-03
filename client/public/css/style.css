@@ -517,3 +517,53 @@ img.product {
   height: 100%;
   object-fit: cover;
 } */
+
+/* ===========================
+   FIX PRODUCT IMAGES — GLOBAL
+=========================== */
+.fruite-img {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fruite-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ========================================
+   RESPONSIVE — giảm chiều cao ảnh trên mobile
+======================================== */
+@media (max-width: 992px) {
+  .fruite-img {
+    height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .fruite-img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .fruite-img {
+    height: 180px;
+  }
+}
+
+/* ========================================
+ OPTIONAL — dành cho laptop màn nhỏ 1280px
+======================================== */
+@media (max-width: 1366px) {
+  .fruite-img {
+    height: 230px;
+  }
+}

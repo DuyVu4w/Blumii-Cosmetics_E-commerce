@@ -51,6 +51,6 @@ git clone https://github.com/NhiBuaaCosmetics-Sales-System-NodeJS-Final-Project.
 cd Cosmetics-Sales-System-NodeJS-Final-Project
 ```
 
----Default test account (optional)
+**Default test account**
 email: ....
 password:.....
