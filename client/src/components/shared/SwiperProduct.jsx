@@ -17,7 +17,6 @@ const SwiperProduct = ({ Title, products = [] }) => {
     const swiperRef = useRef(null);
 
     return (
-        // 1. 🆕 THAY ĐỔI: Thêm class "swiper-product-wrapper"
         <div className="container-fluid vesitable py-5 swiper-product-wrapper">
             <div className="container py-5">
 

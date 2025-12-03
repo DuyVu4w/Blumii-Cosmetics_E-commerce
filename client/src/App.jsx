@@ -47,7 +47,6 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {/* --- 1. Các Route CÓ Layout (Header/Footer) --- */}
       <Route path="/" element={<PublicLayout />}>
         <Route index element={<HomePage />} />
         
@@ -61,7 +60,6 @@ const AppRoutes = () => {
         <Route path='order-detail/:id' element={<OrderDetailPage/>}/>
         <Route path='order-history/:id' element={<OrderHistoryPage/>}/>
 
-        {/* Route được bảo vệ (Cần đăng nhập mới xem được) */}
         <Route 
           path="account" 
           element={
@@ -71,13 +69,10 @@ const AppRoutes = () => {
           } 
         />
 
-        {/* Route 404 cho các link con sai */}
         <Route path='*' element={<NotFoundPage />} />
       </Route>
 
-      {/* --- 2. Các Route KHÔNG CÓ Layout (Full màn hình) --- */}
       
-      {/* Trang Auth (Chỉ vào được khi CHƯA đăng nhập) */}
       <Route 
         path="/auth" 
         element={

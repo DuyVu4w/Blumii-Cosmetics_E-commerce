@@ -59,7 +59,12 @@ const ManagementSection = ({ user, onUserUpdated }) => {
       });
       const data = await res.json();
       alert(data.message);
-      if (data.success) setPassForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      if (data.success)
+        setPassForm({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        });
     } catch (err) {
       console.error(err);
       alert("Failed to change password.");
@@ -68,13 +73,20 @@ const ManagementSection = ({ user, onUserUpdated }) => {
 
   return (
     <div>
-      <h2 className="fw-bold mb-4 pb-2 border-bottom" style={{ color: "#81c408" }}>Manage Profile</h2>
+      <h2
+        className="fw-bold mb-4 pb-2 border-bottom"
+        style={{ color: "#81c408" }}
+      >
+        Manage Profile
+      </h2>
 
       {/* Tabs Navigation */}
       <ul className="nav nav-pills mb-4">
         <li className="nav-item">
           <button
-            className={`nav-link ${activeTab === "info" ? "active bg-secondary" : "text-dark"}`}
+            className={`nav-link ${
+              activeTab === "info" ? "active bg-secondary" : "text-dark"
+            }`}
             onClick={() => setActiveTab("info")}
           >
             Personal Info
@@ -82,7 +94,9 @@ const ManagementSection = ({ user, onUserUpdated }) => {
         </li>
         <li className="nav-item">
           <button
-            className={`nav-link ${activeTab === "password" ? "active bg-secondary" : "text-dark"}`}
+            className={`nav-link ${
+              activeTab === "password" ? "active bg-secondary" : "text-dark"
+            }`}
             onClick={() => setActiveTab("password")}
           >
             Change Password
@@ -90,7 +104,9 @@ const ManagementSection = ({ user, onUserUpdated }) => {
         </li>
         <li className="nav-item">
           <button
-            className={`nav-link ${activeTab === "address" ? "active bg-secondary" : "text-dark"}`}
+            className={`nav-link ${
+              activeTab === "address" ? "active bg-secondary" : "text-dark"
+            }`}
             onClick={() => setActiveTab("address")}
           >
             Address Book
@@ -100,7 +116,6 @@ const ManagementSection = ({ user, onUserUpdated }) => {
 
       {/* Tab Content */}
       <div className="tab-content">
-
         {/* 1. Personal Info Form */}
         {activeTab === "info" && (
           <form onSubmit={handleInfoSubmit}>
@@ -110,7 +125,9 @@ const ManagementSection = ({ user, onUserUpdated }) => {
                 type="text"
                 className="form-control"
                 value={infoForm.customer_name}
-                onChange={(e) => setInfoForm({ ...infoForm, customer_name: e.target.value })}
+                onChange={(e) =>
+                  setInfoForm({ ...infoForm, customer_name: e.target.value })
+                }
                 required
               />
             </div>
@@ -120,15 +137,27 @@ const ManagementSection = ({ user, onUserUpdated }) => {
                 type="text"
                 className="form-control"
                 value={infoForm.phone_number}
-                onChange={(e) => setInfoForm({ ...infoForm, phone_number: e.target.value })}
+                onChange={(e) =>
+                  setInfoForm({ ...infoForm, phone_number: e.target.value })
+                }
               />
             </div>
             <div className="mb-3">
               <label className="form-label fw-bold">Email</label>
-              <input type="email" className="form-control bg-light" value={user.email} readOnly disabled />
+              <input
+                type="email"
+                className="form-control bg-light"
+                value={user.email}
+                readOnly
+                disabled
+              />
               <small className="text-muted">Email cannot be changed.</small>
             </div>
-            <button type="submit" className="btn text-white" style={{ backgroundColor: "#81c408" }}>
+            <button
+              type="submit"
+              className="btn text-white"
+              style={{ backgroundColor: "#81c408" }}
+            >
               Update Info
             </button>
           </form>
@@ -143,7 +172,9 @@ const ManagementSection = ({ user, onUserUpdated }) => {
                 type="password"
                 className="form-control"
                 value={passForm.currentPassword}
-                onChange={(e) => setPassForm({ ...passForm, currentPassword: e.target.value })}
+                onChange={(e) =>
+                  setPassForm({ ...passForm, currentPassword: e.target.value })
+                }
                 required
               />
             </div>
@@ -153,7 +184,9 @@ const ManagementSection = ({ user, onUserUpdated }) => {
                 type="password"
                 className="form-control"
                 value={passForm.newPassword}
-                onChange={(e) => setPassForm({ ...passForm, newPassword: e.target.value })}
+                onChange={(e) =>
+                  setPassForm({ ...passForm, newPassword: e.target.value })
+                }
                 required
               />
             </div>
@@ -163,11 +196,17 @@ const ManagementSection = ({ user, onUserUpdated }) => {
                 type="password"
                 className="form-control"
                 value={passForm.confirmPassword}
-                onChange={(e) => setPassForm({ ...passForm, confirmPassword: e.target.value })}
+                onChange={(e) =>
+                  setPassForm({ ...passForm, confirmPassword: e.target.value })
+                }
                 required
               />
             </div>
-            <button type="submit" className="btn text-white" style={{ backgroundColor: "#81c408" }}>
+            <button
+              type="submit"
+              className="btn text-white"
+              style={{ backgroundColor: "#81c408" }}
+            >
               Save Password
             </button>
           </form>
@@ -178,26 +217,40 @@ const ManagementSection = ({ user, onUserUpdated }) => {
           <div>
             <div className="d-flex justify-content-between align-items-center mb-3">
               <h5>Saved Addresses</h5>
-              <button className="btn btn-outline-secondary btn-sm">+ Add New</button>
+              <button className="btn btn-outline-secondary btn-sm">
+                + Add New
+              </button>
             </div>
             <div className="list-group">
-              {user.addresses && user.addresses.length > 0 ? user.addresses.map((addr, idx) => (
-                <div key={idx} className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                  <div>
-                    <div className="fw-bold">{addr.street}</div>
-                    <div className="small text-muted">{addr.ward}, {addr.district}, {addr.province}</div>
-                    {addr.isDefault && <span className="badge bg-success mt-1">Default</span>}
+              {user.addresses && user.addresses.length > 0 ? (
+                user.addresses.map((addr, idx) => (
+                  <div
+                    key={idx}
+                    className="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <div className="fw-bold">{addr.street}</div>
+                      <div className="small text-muted">
+                        {addr.ward}, {addr.district}, {addr.province}
+                      </div>
+                      {addr.isDefault && (
+                        <span className="badge bg-success mt-1">Default</span>
+                      )}
+                    </div>
+                    <button className="btn btn-sm text-danger">
+                      <i className="fas fa-trash"></i>
+                    </button>
                   </div>
-                  <button className="btn btn-sm text-danger"><i className="fas fa-trash"></i></button>
-                </div>
-              )) : (
-                <p className="text-muted text-center py-3">No addresses saved.</p>
+                ))
+              ) : (
+                <p className="text-muted text-center py-3">
+                  No addresses saved.
+                </p>
               )}
             </div>
-            <small className="text-muted d-block mt-3">* Address management modal logic can be integrated here similarly to AuthPage.</small>
+            <small className="text-muted d-block mt-3"></small>
           </div>
         )}
-
       </div>
     </div>
   );
