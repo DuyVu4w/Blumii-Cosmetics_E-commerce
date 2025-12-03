@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const OrderSection = () => {
   // Khai báo State
@@ -7,6 +8,8 @@ const OrderSection = () => {
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null); 
   const [filter, setFilter] = useState("all"); 
+  // điều hướng
+  const navigate = useNavigate();
 
   // Hàm gọi API lấy danh sách đơn hàng
   useEffect(() => {
@@ -94,7 +97,9 @@ const OrderSection = () => {
       <div className="order-list">
         {filteredOrders.length > 0 ? (
           filteredOrders.map((order) => (
-            <div key={order._id} className={`order-card ${order.status ? order.status.toLowerCase() : ''}`}>
+            <div key={order._id} className={`order-card ${order.status ? order.status.toLowerCase() : ''}` }
+              onClick={() => navigate(`/order-detail/${order._id}`)}
+              style={{cursor: "pointer"}}>
               <div className="order-header">
                 {/* Hiển thị 6 ký tự cuối của ID */}
                 <span>Order Id: #{order._id ? order._id.slice(-6).toUpperCase() : 'N/A'}</span>
