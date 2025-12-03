@@ -16,7 +16,7 @@ const ProductCard = ({ id, imgSrc, category, name, description, price }) => {
     category,
     name,
     description,
-    price // Lưu ý: Đảm bảo price là số hoặc string có thể chuyển thành số
+    price 
   };
 
   // Hàm xử lý thêm vào giỏ
@@ -70,7 +70,7 @@ const ProductCard = ({ id, imgSrc, category, name, description, price }) => {
         <div className="d-flex justify-content-between flex-lg-wrap mt-auto">
           {/* Hiển thị giá (Nếu price là số thì format, nếu string thì giữ nguyên) */}
           <p className="text-dark fs-5 fw-bold mb-0">
-             {typeof price === 'number' ? `$${price}` : price}
+             {typeof price === 'number' ? `${price} đ` : price }
           </p>
           
           {/* 4. Gắn sự kiện onClick vào handleAddToCart */}

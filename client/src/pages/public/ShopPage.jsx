@@ -177,6 +177,7 @@ const ShopPage = () => {
                         className="col-md-6 col-lg-6 col-xl-4"
                       >
                         <ProductCard
+                          id={product.id}
                           imgSrc={product.imgSrc}
                           category={product.category}
                           name={product.name}

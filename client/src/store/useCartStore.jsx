@@ -5,10 +5,10 @@ import { persist } from 'zustand/middleware';
 export const useCartStore = create(
   persist(
     (set, get) => ({
-      // 1. State: Danh sách giỏ hàng
+      //  State: Danh sách giỏ hàng
       cartItems: [],
 
-      // 2. Action: Thêm vào giỏ
+      // Action: Thêm vào giỏ
       addToCart: (product, quantity = 1) => {
         set((state) => {
           const existingItem = state.cartItems.find((item) => item.id === product.id);
@@ -36,14 +36,14 @@ export const useCartStore = create(
         });
       },
 
-      // 3. Action: Xóa sản phẩm
+      //  Action: Xóa sản phẩm
       removeFromCart: (productId) => {
         set((state) => ({
           cartItems: state.cartItems.filter((item) => item.id !== productId),
         }));
       },
 
-      // 4. Action: Cập nhật số lượng
+      // Action: Cập nhật số lượng
       updateQuantity: (productId, amount) => {
         set((state) => ({
           cartItems: state.cartItems.map((item) =>
@@ -54,10 +54,10 @@ export const useCartStore = create(
         }));
       },
 
-      // 5. Action: Xóa sạch giỏ
+      // Action: Xóa sạch giỏ
       clearCart: () => set({ cartItems: [] }),
 
-      // 6. Getter: Tính tổng tiền (Zustand không có computed tự động, nên ta viết hàm trả về)
+      // Getter: Tính tổng tiền (Zustand không có computed tự động, nên ta viết hàm trả về)
       getCartTotal: () => {
         return get().cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
       },

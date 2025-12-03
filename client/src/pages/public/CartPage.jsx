@@ -13,7 +13,7 @@ const CartPage = () => {
 
   // 2. Tính toán các chi phí
   const subtotal = getCartTotal(); // Gọi hàm tính tổng từ store
-  const shipping = cartItems.length > 0 ? 3.00 : 0; // Phí ship cố định (chỉ tính khi có hàng)
+  const shipping = cartItems.length > 0 ? 15000 : 0; // Phí ship cố định 
   const total = subtotal + shipping;
 
   return (
@@ -71,7 +71,7 @@ const CartPage = () => {
                             {item.category && <small className="text-muted">{item.category}</small>}
                           </td>
                           <td>
-                            <p className="mb-0 mt-4">${Number(item.price).toFixed(2)}</p>
+                            <p className="mb-0 mt-4">{Number(item.price)} đ</p>
                           </td>
                           <td>
                             <div className="input-group quantity mt-4" style={{ width: "100px" }}>
@@ -101,7 +101,7 @@ const CartPage = () => {
                           </td>
                           <td>
                             <p className="mb-0 mt-4">
-                              ${(item.price * item.quantity).toFixed(2)}
+                              {(item.price * item.quantity)} đ
                             </p>
                           </td>
                           <td>
@@ -149,20 +149,20 @@ const CartPage = () => {
                     
                     <div className="d-flex justify-content-between mb-4">
                       <h5 className="mb-0 me-4">Subtotal:</h5>
-                      <p className="mb-0 fw-bold">${subtotal.toFixed(2)}</p>
+                      <p className="mb-0 fw-bold">{subtotal} đ</p>
                     </div>
                     
                     <div className="d-flex justify-content-between">
                       <h5 className="mb-0 me-4">Shipping</h5>
                       <div>
-                        <p className="mb-0">Flat rate: ${shipping.toFixed(2)}</p>
+                        <p className="mb-0">Flat rate: {shipping} đ</p>
                       </div>
                     </div>
                     <p className="mb-0 text-end text-muted small">Shipping to Vietnam.</p>
                     
                     <div className="py-4 mb-4 border-top border-bottom d-flex justify-content-between mt-3">
                       <h5 className="mb-0 ps-4 me-4 text-uppercase">Total</h5>
-                      <p className="mb-0 pe-4 fs-4 fw-bold text-primary">${total.toFixed(2)}</p>
+                      <p className="mb-0 pe-4 fs-4 fw-bold text-primary">{total} đ</p>
                     </div>
                     
                     <Link
