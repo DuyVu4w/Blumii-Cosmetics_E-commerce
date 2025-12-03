@@ -45,12 +45,11 @@ exports.addOrder = async (req, res) => {
     }
 }
 
-// order history
+// lấy order histroy của user hiện tại 
 exports.getMyOrders = async (req, res) => {
     try {
         // Lấy ID user từ token (đã qua middleware xác thực)
         const userId = req.user._id || req.user.id
-        console.log(userId)
         const orders = await Order.find({ user: userId })
             .sort({ createdAt: -1 }) // Sắp xếp đơn mới nhất lên đầu
             
@@ -65,3 +64,20 @@ exports.getMyOrders = async (req, res) => {
     }
 }
 
+exports.getOrderById = async (req, res) => {
+    try {
+        const order = await Order.findById(req.params.id);
+
+        if (order) {
+            // Kiểm tra xem đơn hàng có thuộc về user đang đăng nhập không (Bảo mật)
+            if (order.user.toString() !== req.user.id) {
+                return res.status(403).json({ message: 'You are not allow to see this order' });
+            }
+            res.json(order);
+        } else {
+            res.status(404).json({ message: 'Order not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

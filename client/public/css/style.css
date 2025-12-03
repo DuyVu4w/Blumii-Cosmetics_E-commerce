@@ -23,15 +23,37 @@
     justify-content: center;
     transition: 0.5s;
     z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease-out, visibility 0s linear 0.5s;
+    z-index: 99999;
+}
+
+#spinner.show {
+    transition: opacity 0.8s ease-out, visibility 0s linear 0s;
+    visibility: visible;
+    opacity: 1;
+}
+
+.back-to-top {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    display: flex;
+    width: 45px;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+    z-index: 99;
 }
 
 /*** Spinner End ***/
 
-
 /*** Button Start ***/
 .btn {
     font-weight: 600;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .btn-square {
@@ -121,12 +143,12 @@
 .navbar .navbar-nav .nav-link {
     padding: 10px 15px;
     font-size: 16px;
-    transition: .5s;
+    transition: 0.5s;
 }
 
 .navbar {
     height: 100px;
-    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navbar .navbar-nav .nav-link:hover,
@@ -153,7 +175,7 @@
         transform: rotateX(-75deg);
         transform-origin: 0% 0%;
         border: 0;
-        transition: .5s;
+        transition: 0.5s;
         opacity: 0;
     }
 }
@@ -168,19 +190,21 @@
     visibility: visible;
     background: var(--bs-light) !important;
     border-radius: 10px !important;
-    transition: .5s;
+    transition: 0.5s;
     opacity: 1;
 }
 
 #searchModal .modal-content {
-    background: rgba(255, 255, 255, .8);
+    background: rgba(255, 255, 255, 0.8);
 }
 
 /*** Navbar End ***/
 
 /*** Hero Header ***/
 .hero-header {
-    background: linear-gradient(rgba(248, 223, 173, 0.1), rgba(248, 223, 173, 0.1)), url(../img/hero-img.jpg);
+    background: linear-gradient(rgba(248, 223, 173, 0.1),
+            rgba(248, 223, 173, 0.1)),
+        url(../img/hero-img.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -221,7 +245,8 @@
 
 .page-header {
     position: relative;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/cart-page-header-img.jpg);
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+        url(../img/cart-page-header-img.jpg);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -245,7 +270,6 @@
 
 /*** Hero Header end ***/
 
-
 /*** featurs Start ***/
 .featurs .featurs-item .featurs-icon {
     position: relative;
@@ -263,11 +287,9 @@
     transform: translate(-50%);
     transform: rotate(45deg);
     background: var(--bs-secondary);
-
 }
 
 /*** featurs End ***/
-
 
 /*** service Start ***/
 .service .service-item .service-content {
@@ -280,7 +302,6 @@
 }
 
 /*** service End ***/
-
 
 /*** Fruits Start ***/
 .fruite .tab-class .nav-item a.active {
@@ -328,7 +349,6 @@
 
 /*** Fruits End ***/
 
-
 /*** vesitable Start ***/
 .vesitable .vesitable-item {
     height: 100%;
@@ -367,7 +387,6 @@
     border: 1px solid var(--bs-secondary);
     border-radius: 20px;
     transition: 0.5s;
-
 }
 
 .vesitable .owl-nav .owl-prev:hover {
@@ -393,14 +412,12 @@
 
 /*** vesitable End ***/
 
-
 /*** Banner Section Start ***/
 .banner .banner-btn:hover {
     background: var(--bs-primary);
 }
 
 /*** Banner Section End ***/
-
 
 /*** Facts Start ***/
 .counter {
@@ -425,7 +442,6 @@
 }
 
 /*** Facts End ***/
-
 
 /*** testimonial Start ***/
 .testimonial .owl-nav .owl-prev {
@@ -462,7 +478,6 @@
 
 /*** testimonial End ***/
 
-
 /*** Single Page Start ***/
 .pagination {
     display: inline-block;
@@ -484,7 +499,7 @@
 }
 
 .pagination a:hover:not(.active) {
-    background-color: var(--bs-primary)
+    background-color: var(--bs-primary);
 }
 
 .nav.nav-tabs .nav-link.active {
@@ -493,11 +508,10 @@
 
 /*** Single Page End ***/
 
-
 /*** Footer Start ***/
 .footer .footer-item .btn-link {
     line-height: 35px;
-    color: rgba(255, 255, 255, .5);
+    color: rgba(255, 255, 255, 0.5);
     transition: 0.5s;
 }
 
@@ -511,16 +525,31 @@
 
 /*** Footer End ***/
 
-.product-card-img {
-    width: 100%;
-    height: 200px;
-    /* bạn chọn 180–240px tùy thiết kế */
-    overflow: hidden;
+/* FIX ALL PRODUCT IMAGES TO SAME RATIO */
+/* chỉ ảnh sản phẩm */
+.product-img,
+.fruite-item img,
+.vesitable-item img,
+.card.product-card img,
+img.product {
+    width: 100% !important;
+    height: 250px !important;
+    object-fit: cover !important;
+    border-radius: 10px;
 }
 
-.product-card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+/* .product-img-wrapper {
+  width: 100%;
+  height: 250px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.product-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+} */

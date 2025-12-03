@@ -65,38 +65,3 @@ exports.createProduct = async (req, res) => {
     }
 };
 
-// [POST] /api/products/seed (Cập nhật cho Model mới)
-exports.seedProducts = async (req, res) => {
-    // Dữ liệu mẫu đã được chuẩn hóa theo Model mới
-    const sampleProducts = [
-        { 
-            name: "Ordinary Serum", 
-            brand: "The Ordinary",
-            category: "Skincare", 
-            description: "Hydrating serum for smooth, healthy skin.", 
-            price: 189000, 
-            marketPrice: 200000,
-            countInStock: 100,
-            image: ["img/serum.jpg"]
-        },
-        { 
-            name: "Grapes", 
-            brand: "Espoir",
-            category: "Makeup", 
-            description: "Soft, blendable shades for daily makeup looks.", 
-            price: 490000,
-            marketPrice: 550000,
-            countInStock: 50,
-            image: ["img/espoir.jpg"]
-        },
-        // ... Thêm các sản phẩm khác tương tự
-    ];
-
-    try {
-        await Product.deleteMany({});
-        await Product.insertMany(sampleProducts);
-        res.json({ success: true, message: 'Đã nạp dữ liệu mẫu (Schema Mới) thành công!' });
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
-    }
-};

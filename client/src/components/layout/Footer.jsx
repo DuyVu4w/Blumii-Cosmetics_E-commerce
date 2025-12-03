@@ -124,7 +124,11 @@ const Footer = () => {
                 <p>Email: blummiofficial@gmail.com</p>
                 <p>Phone: 0123456789</p>
                 <p>Payment Accepted</p>
-                <img src="img/payment.png" className="img-fluid" alt="" />
+                <img
+                  src="img/payment/payment.png"
+                  className="img-fluid"
+                  alt=""
+                />
               </div>
             </div>
           </div>
