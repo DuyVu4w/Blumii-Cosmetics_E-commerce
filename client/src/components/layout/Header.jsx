@@ -1,54 +1,58 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom"; // 1. Import useNavigate
 
 const Header = () => {
-  // State cho Navbar (mobile) và Modal (search)
+  const navigate = useNavigate(); // Hook chuyển trang
+  
+  // State
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-
-  // State để theo dõi trạng thái cuộn
   const [isScrolled, setIsScrolled] = useState(false);
+  const [keyword, setKeyword] = useState("");
 
-  // Xử lý mở/đóng Navbar (cho mobile)
+  // Toggle Navbar
   const toggleNavbar = () => setIsNavbarOpen(!isNavbarOpen);
 
-  // Xử lý Modal
+  // Modal handlers
   const openSearchModal = () => setIsSearchModalOpen(true);
   const closeSearchModal = () => setIsSearchModalOpen(false);
 
-  // useEffect để lắng nghe sự kiện cuộn (scroll)
+  // Scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll);
-    // Gỡ bỏ sự kiện khi component bị unmount
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Tính toán class cho Navbar (dựa trên state isNavbarOpen)
-  const navbarClasses = `collapse navbar-collapse bg-white ${
-    isNavbarOpen ? "show" : ""
-  }`;
+  // 2. Hàm xử lý tìm kiếm
+  const handleSearch = () => {
+    if (keyword.trim()) {
+      // Đóng modal trước
+      closeSearchModal(); 
+      // Chuyển hướng sang trang shop hoặc search result kèm query param
+      // Ví dụ: /shop?search=lipstick
+      navigate(`/shop?search=${encodeURIComponent(keyword)}`); 
+      setKeyword(""); // Reset từ khóa nếu muốn
+    }
+  };
 
-  // Tính toán thuộc tính cho Modal (dựa trên state isSearchModalOpen)
-  const modalStyle = isSearchModalOpen
-    ? { display: "block", paddingRight: "17px" }
-    : { display: "none" };
-  const modalAria = isSearchModalOpen ? "true" : "false";
+  // 3. Xử lý khi nhấn phím Enter
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
-  // Tính toán class cho Topbar (dựa trên CSS tùy chỉnh và state isScrolled)
-  const topbarClasses = `container topbar bg-primary ${
-    isScrolled ? "topbar-hidden" : ""
-  }`;
-
-  // Hàm xử lý class cho NavLink (để đổi màu khi active)
-  const getNavLinkClass = ({ isActive }) =>
-    `nav-item nav-link ${isActive ? "active" : ""}`;
+  // Classes logic
+  const navbarClasses = `collapse navbar-collapse bg-white ${isNavbarOpen ? "show" : ""}`;
+  const topbarClasses = `container topbar bg-primary ${isScrolled ? "topbar-hidden" : ""}`;
+  const getNavLinkClass = ({ isActive }) => `nav-item nav-link ${isActive ? "active" : ""}`;
 
   return (
     <>
-      {/* Topbar Start: Sử dụng 'topbarClasses' mới */}
+      {/* Topbar Start */}
       <div className={topbarClasses}>
         <div className="d-flex justify-content-between">
           <div className="top-info ps-2">
@@ -80,7 +84,7 @@ const Header = () => {
       </div>
       {/* Topbar End */}
 
-      {/* Navbar Start: */}
+      {/* Navbar Start */}
       <div className="container px-0">
         <nav className="navbar navbar-light bg-white navbar-expand-xl">
           <Link to="/" className="navbar-brand">
@@ -97,45 +101,20 @@ const Header = () => {
 
           <div className={navbarClasses} id="navbarCollapse">
             <div className="navbar-nav mx-auto">
-              <NavLink to="/" end className={getNavLinkClass}>
-                Home
-              </NavLink>
-              <NavLink to="/shop" className={getNavLinkClass}>
-                Shop
-              </NavLink>
+              <NavLink to="/" end className={getNavLinkClass}>Home</NavLink>
+              <NavLink to="/shop" className={getNavLinkClass}>Shop</NavLink>
 
               <div className="nav-item dropdown">
-                {/* Sử dụng <a> cho dropdown toggle (vì Bootstrap JS gốc có thể vẫn xử lý nó)
-                                    Hoặc chúng ta có thể thêm logic state riêng cho dropdown */}
-                <a
-                  href="#"
-                  className="nav-link dropdown-toggle"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                >
-                  Brand
-                </a>
+                <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">Brand</a>
                 <div className="dropdown-menu m-0 bg-secondary rounded-0">
-                  <Link to="/cart" className="dropdown-item">
-                    Romand
-                  </Link>
-                  <Link to="/checkout" className="dropdown-item">
-                    3CE
-                  </Link>
-                  <Link to="/testimonial" className="dropdown-item">
-                    Torriden
-                  </Link>
-                  <Link to="/404" className="dropdown-item">
-                    Maybelline
-                  </Link>
-                  <Link to="/404" className="dropdown-item">
-                    Innisfree
-                  </Link>
+                  <Link to="/cart" className="dropdown-item">Romand</Link>
+                  <Link to="/checkout" className="dropdown-item">3CE</Link>
+                  <Link to="/testimonial" className="dropdown-item">Torriden</Link>
+                  <Link to="/404" className="dropdown-item">Maybelline</Link>
+                  <Link to="/404" className="dropdown-item">Innisfree</Link>
                 </div>
               </div>
-              <NavLink to="/contact" className={getNavLinkClass}>
-                Contact
-              </NavLink>
+              <NavLink to="/contact" className={getNavLinkClass}>Contact</NavLink>
             </div>
             <div className="d-flex m-3 me-0">
               <button
@@ -148,19 +127,12 @@ const Header = () => {
                 <i className="fa fa-shopping-bag fa-2x"></i>
                 <span
                   className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                  style={{
-                    top: "-5px",
-                    left: "15px",
-                    height: "20px",
-                    minWidth: "20px",
-                  }}
+                  style={{ top: "-5px", left: "15px", height: "20px", minWidth: "20px" }}
                 >
                   3
                 </span>
               </Link>
               <Link to="/auth" className="my-auto">
-                {" "}
-                {/* Đổi thành /auth hoặc /login */}
                 <i className="fas fa-user fa-2x"></i>
               </Link>
             </div>
@@ -169,50 +141,61 @@ const Header = () => {
       </div>
       {/* Navbar End */}
 
-      {/* Modal Search Start: */}
-      <div
-        className={isSearchModalOpen ? "modal fade show" : "modal fade"}
-        id="searchModal"
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden={modalAria}
-        style={modalStyle}
-      >
-        <div className="modal-dialog modal-fullscreen">
-          <div className="modal-content rounded-0">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLabel">
-                Search by keyword
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={closeSearchModal}
-                aria-label="Close"
-              ></button>
-            </div>
-            <div className="modal-body d-flex align-items-center">
-              <div className="input-group w-75 mx-auto d-flex">
-                <input
-                  type="search"
-                  className="form-control p-3"
-                  placeholder="keywords"
-                  aria-describedby="search-icon-1"
-                />
-                <span id="search-icon-1" className="input-group-text p-3">
-                  <i className="fa fa-search"></i>
-                </span>
+      {/* Modal Search Start */}
+      {isSearchModalOpen && (
+        <div
+          className="modal fade show"
+          id="searchModal"
+          tabIndex="-1" 
+          aria-labelledby="exampleModalLabel"
+          aria-modal="true"
+          role="dialog"
+          style={{
+            display: 'block',
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            zIndex: 1055
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) closeSearchModal();
+          }}
+        >
+          <div className="modal-dialog modal-fullscreen">
+            <div className="modal-content rounded-0">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Search by keyword</h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={closeSearchModal}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body d-flex align-items-center">
+                <div className="input-group w-75 mx-auto d-flex">
+                  <input
+                    type="search"
+                    className="form-control p-3"
+                    placeholder="keywords"
+                    autoFocus
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                    onKeyDown={handleKeyDown} // Thêm sự kiện nhấn Enter
+                  />
+                  {/* Thêm onClick vào icon search để tìm kiếm */}
+                  <span 
+                    id="search-icon-1" 
+                    className="input-group-text p-3" 
+                    style={{cursor: 'pointer'}}
+                    onClick={handleSearch} 
+                  >
+                    <i className="fa fa-search"></i>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        {isSearchModalOpen && (
-          <div
-            className="modal-backdrop fade show"
-            onClick={closeSearchModal}
-          ></div>
-        )}
-      </div>
+      )}
       {/* Modal Search End */}
     </>
   );

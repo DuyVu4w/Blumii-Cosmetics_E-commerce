@@ -1,7 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/shared/ProductCard.jsx";
 import ShopSidebar from "../../components/shared/ShopSidebar.jsx";
+import { useState } from "react";
+import { useEffect } from "react";
 
 // (Dữ liệu mẫu giữ nguyên...)
 const sampleProducts = [
@@ -11,7 +13,7 @@ const sampleProducts = [
     category: "Skincare",
     name: "Grapes",
     description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
+    price: 799000
   },
   {
     id: 2,
@@ -19,7 +21,7 @@ const sampleProducts = [
     category: "Skincare",
     name: "Grapes",
     description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
+    price: 390000
   },
   {
     id: 3,
@@ -27,7 +29,7 @@ const sampleProducts = [
     category: "Makeup",
     name: "Raspberries",
     description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
+    price: 499000
   },
   {
     id: 4,
@@ -35,7 +37,7 @@ const sampleProducts = [
     category: "Makeup",
     name: "Apricots",
     description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
+    price: 1000000,
   },
   {
     id: 5,
@@ -43,7 +45,7 @@ const sampleProducts = [
     category: "Skincare",
     name: "Banana",
     description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
+    price: 100000,
   },
   {
     id: 6,
@@ -51,11 +53,57 @@ const sampleProducts = [
     category: "Mask",
     name: "Oranges",
     description: "Lorem ipsum dolor sit amet...",
-    price: "$4.99 / kg",
+    price: 99000
   },
 ];
 
 const ShopPage = () => {
+  const PRODUCTS_DATA = sampleProducts
+
+  // State danh sách sản phẩm hiển thị
+  const [products, setProducts] = useState(PRODUCTS_DATA);
+  
+  // State cho ô input tìm kiếm trong trang Shop
+  const [searchInput, setSearchInput] = useState(""); 
+
+  const location = useLocation();
+  const navigate = useNavigate(); // Hook để đổi URL
+
+  // lawgns nghe thay đổi
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const rawKeyword = searchParams.get("search");
+
+    if (rawKeyword) {
+      // đồng bộ từ khóa với input search 
+      setSearchInput(rawKeyword);
+
+      // tìm kiếm sản phẩm theo tên
+      const keyword = rawKeyword.toLowerCase().trim();
+      const filteredProducts = PRODUCTS_DATA.filter((item) => {
+        return item.name.toLowerCase().includes(keyword);
+      });
+
+      setProducts(filteredProducts);
+    } else {
+      // reset, hiển thị tất cả nếu không có từ khóa
+      setSearchInput(""); 
+      setProducts(PRODUCTS_DATA);
+    }
+  }, [location.search]); // Chạy lại mỗi khi URL thay đổi
+
+  // Hàm tìm kiếm
+  const handleLocalSearch = () => {
+    // Đẩy từ khóa lên URL -> useEffect ở trên sẽ tự động chạy để filter
+    navigate(`?search=${encodeURIComponent(searchInput)}`);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleLocalSearch();
+    }
+  };
+
   return (
     <>
       {/* (Banner Header ... giữ nguyên) */}
@@ -85,8 +133,11 @@ const ShopPage = () => {
                       className="form-control p-3"
                       placeholder="keywords"
                       aria-describedby="search-icon-1"
+                      value={searchInput}
+                      onChange={(e) => setSearchInput(e.target.value)}
+                      onKeyDown={handleKeyDown} // Nhấn Enter
                     />
-                    <span id="search-icon-1" className="input-group-text p-3">
+                    <span id="search-icon-1" className="input-group-text p-3" onClick={handleLocalSearch} style={{ cursor: "pointer" }}>
                       <i className="fa fa-search"></i>
                     </span>
                   </div>
@@ -119,7 +170,7 @@ const ShopPage = () => {
                 {/* Product Grid (Cột bên phải) */}
                 <div className="col-lg-9">
                   <div className="row g-4 justify-content-center">
-                    {sampleProducts.map((product) => (
+                    {products.map((product) => (
                       <div
                         key={product.id}
                         className="col-md-6 col-lg-6 col-xl-4"
