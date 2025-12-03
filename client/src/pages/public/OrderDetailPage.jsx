@@ -34,7 +34,7 @@ const OrderDetailPage = () => {
             try {
                 const token = localStorage.getItem("auth_token");
                 if (!token) {
-                    throw new Error("Bạn cần đăng nhập để xem chi tiết đơn hàng.");
+                    throw new Error("You should login first to see order detail.");
                 }
 
                 const response = await fetch(`http://localhost:8080/api/orders/${id}`, {
@@ -47,7 +47,7 @@ const OrderDetailPage = () => {
 
                 if (!response.ok) {
                     const errData = await response.json();
-                    throw new Error(errData.message || "Không tìm thấy đơn hàng");
+                    throw new Error(errData.message || "Order not found");
                 }
 
                 const data = await response.json();
