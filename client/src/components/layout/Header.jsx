@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom"; // 1. Import useNavigate
-
+import { useCartStore } from "../../store/useCartStore";
 const Header = () => {
+  const cartCount = useCartStore((state) => state.getCartCount());
   const navigate = useNavigate(); // Hook chuyển trang
-  
   // State
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -147,7 +147,7 @@ const Header = () => {
                   className="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                   style={{ top: "-5px", left: "15px", height: "20px", minWidth: "20px" }}
                 >
-                  3
+                  {cartCount}
                 </span>
               </Link>
               <Link to="/auth" className="my-auto">

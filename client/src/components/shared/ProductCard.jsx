@@ -1,8 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useCartStore } from "../../store/useCartStore"; // Import store
 
-const ProductCard = ({id, imgSrc, category, name, description, price }) => {
+const ProductCard = ({ id, imgSrc, category, name, description, price }) => {
+  // Lấy hàm addToCart từ store
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const displayImage = Array.isArray(imgSrc) ? imgSrc[0] : imgSrc;
+
+  // Tạo đối tượng product từ các props truyền vào
+  const productData = {
+    id,
+    imgSrc: displayImage, // Lưu ảnh đã xử lý vào giỏ
+    category,
+    name,
+    description,
+    price // Lưu ý: Đảm bảo price là số hoặc string có thể chuyển thành số
+  };
+
+  // Hàm xử lý thêm vào giỏ
+  const handleAddToCart = (e) => {
+    // Ngăn chặn sự kiện click lan truyền (nếu thẻ cha là Link)
+    if(e) e.preventDefault(); 
+    
+    //Gọ hàm từ store (mặc định số lượng là 1 khi bấm từ trang danh sách)
+    addToCart(productData, 1); 
+    
+    alert("Đã thêm thành công!"); 
+  };
 
   const truncateWords = (str, numWords) => {
     if (!str) return "";
@@ -10,8 +36,6 @@ const ProductCard = ({id, imgSrc, category, name, description, price }) => {
     if (words.length <= numWords) return str;
     return words.slice(0, numWords).join(" ") + "...";
   };
-
-  const displayImage = Array.isArray(imgSrc) ? imgSrc[0] : imgSrc;
 
   return (
     <div className="rounded position-relative fruite-item h-100">
@@ -33,21 +57,26 @@ const ProductCard = ({id, imgSrc, category, name, description, price }) => {
         {category}
       </div>
       <div className="p-4 border border-secondary border-top-0 rounded-bottom d-flex flex-column fruite-item-bottom">
-        <Link to="/shop-detail">
-          <Link to={`/shop-detail/${id}`} className="text-decoration-none">
-            <h4 className="h5 fw-bold text-dark mb-2 hover-primary" title={name}>
-              {truncateWords(name, 5)}
-            </h4>
-          </Link>
+        <Link to={`/shop-detail/${id}`} className="text-decoration-none">
+           <h4 className="h5 fw-bold text-dark mb-2 hover-primary" title={name}>
+             {truncateWords(name, 5)}
+           </h4>
         </Link>
+        
         <p className="text-muted mb-3" style={{ fontSize: '14px', minHeight: '42px' }} title={description}>
           {truncateWords(description, 15)}
         </p>
+        
         <div className="d-flex justify-content-between flex-lg-wrap mt-auto">
-          <p className="text-dark fs-5 fw-bold mb-0">{price}</p>
+          {/* Hiển thị giá (Nếu price là số thì format, nếu string thì giữ nguyên) */}
+          <p className="text-dark fs-5 fw-bold mb-0">
+             {typeof price === 'number' ? `$${price}` : price}
+          </p>
+          
+          {/* 4. Gắn sự kiện onClick vào handleAddToCart */}
           <button
             className="btn border border-secondary rounded-pill px-3 text-primary"
-            onClick={() => console.log(`Added ${name} to cart`)}
+            onClick={handleAddToCart} 
           >
             <i className="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
           </button>
@@ -58,20 +87,19 @@ const ProductCard = ({id, imgSrc, category, name, description, price }) => {
 };
 
 ProductCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  imgSrc: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired, // ID có thể là số hoặc chuỗi
+  imgSrc: PropTypes.oneOfType([PropTypes.string, PropTypes.array]), // Ảnh có thể là chuỗi hoặc mảng
+  category: PropTypes.string,
   name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
+  description: PropTypes.string,
+  price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 ProductCard.defaultProps = {
   imgSrc: "img/eyemask.jpg",
   category: "Category",
-  name: "Product Name",
   description: "Description not available.",
-  price: "$0.00 / kg",
+  price: 0,
 };
 
 export default ProductCard;

@@ -5,9 +5,9 @@ import ShopSidebar from "../../components/shared/ShopSidebar.jsx";
 import { useState } from "react";
 import { useEffect } from "react";
 
-
 const ShopPage = () => {
-  // === 1. KHAI BÁO STATE ===
+
+
   const [products, setProducts] = useState([]);       // Danh sách sản phẩm đang hiển thị (đã lọc)
   const [allProducts, setAllProducts] = useState([]); // Danh sách GỐC lấy từ DB (để không bị mất khi lọc)
   const [loading, setLoading] = useState(true);       // Trạng thái đang tải
@@ -24,7 +24,6 @@ const ShopPage = () => {
       try {
         setLoading(true);
 
-        // Thay đường dẫn này bằng API thực tế của bạn (VD: http://localhost:5000/api/products)
         const response = await fetch('http://localhost:8080/api/products/', {
           method: "GET"
         });
@@ -93,6 +92,7 @@ const ShopPage = () => {
     }
   };
   
+
   // hiển thị đang loading
   if (loading) {
     return (
