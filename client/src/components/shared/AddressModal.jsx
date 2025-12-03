@@ -283,7 +283,7 @@ const AddressModal = ({ isOpen, onClose, onSave }) => {
               id="street"
               value={street}
               onChange={(e) => setStreet(e.target.value)}
-              placeholder="Ví dụ: 123 Đường ABC"
+              placeholder="Example: 123 ABC Street"
               disabled={isLoading}
             />
           </div>

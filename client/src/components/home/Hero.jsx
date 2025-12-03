@@ -40,7 +40,7 @@ const Hero = () => {
                     className="img-fluid w-100 h-100 bg-secondary rounded"
                     alt="First slide"
                   />
-                  <a href="#" className="btn px-4 py-2 text-white rounded">
+                  <a href="/shop" className="btn px-4 py-2 text-white rounded">
                     Comestics
                   </a>
                 </div>
@@ -50,7 +50,7 @@ const Hero = () => {
                     className="img-fluid w-100 h-100 rounded"
                     alt="Second slide"
                   />
-                  <a href="#" className="btn px-4 py-2 text-white rounded">
+                  <a href="/shop" className="btn px-4 py-2 text-white rounded">
                     Skincare
                   </a>
                 </div>
