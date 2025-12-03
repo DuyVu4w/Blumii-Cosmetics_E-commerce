@@ -11,7 +11,7 @@ import ShopPage from './pages/public/ShopPage.jsx';
 import AuthPage from './pages/public/AuthPage.jsx';
 import NotFoundPage from './pages/public/NotFoundPage.jsx';
 import ShopDetailPage from './pages/public/ShopDetailPage.jsx';
-import UserProfilePage from "./pages/public/UserProfilePage.jsx";
+import UserProfilePage from "./pages/private/UserProfilePage.jsx";
 
 import CheckoutPage from './pages/public/CheckoutPage.jsx';
 import CartPage from './pages/public/CartPage.jsx';
@@ -39,7 +39,7 @@ function App() {
           <Route path="shop" element={<ShopPage />} />
           <Route path="shop-detail" element={<ShopDetailPage />} />
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="profile" element={<UserProfilePage />} />
+          <Route path="account" element={<UserProfilePage />} />
         </Route>
 
         {/* 4. Các Route KHÔNG CÓ Layout */}
