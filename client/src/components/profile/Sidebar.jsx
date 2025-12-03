@@ -1,6 +1,6 @@
 import React from "react";
 
-const Sidebar = ({ activeSection, setActiveSection }) => {
+const Sidebar = ({ activeSection, setActiveSection, onLogout }) => {
   return (
     <aside className="sidebar">
       <img
@@ -33,6 +33,10 @@ const Sidebar = ({ activeSection, setActiveSection }) => {
           onClick={() => setActiveSection("myorder")}
         >
           📦 My Orders
+        </li>
+        {/* sidebar đăng xuất */}
+        <li onClick={onLogout} className="logout-btn">
+          🚪 Logout
         </li>
       </ul>
     </aside>

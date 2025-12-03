@@ -6,6 +6,11 @@ import OrderSection from "../../components/order_management/OrderSection.jsx";
 
 const UserProfilePage = () => {
   const [activeSection, setActiveSection] = useState("profile");
+  function handleLogout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  }
 
   return (
     <div className="userprofile-page">
@@ -13,6 +18,7 @@ const UserProfilePage = () => {
         <Sidebar
           activeSection={activeSection}
           setActiveSection={setActiveSection}
+          onLogout={handleLogout}
         />
         <main className="profile-main-content">
           {activeSection === "profile" && <ProfileSection />}
