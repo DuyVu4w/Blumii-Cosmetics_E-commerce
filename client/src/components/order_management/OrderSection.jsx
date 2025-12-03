@@ -1,45 +1,130 @@
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 
 const OrderSection = () => {
+  // Khai báo State
+  const [orders, setOrders] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const [filter, setFilter] = useState("all"); 
+
+  // Hàm gọi API lấy danh sách đơn hàng
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        // lấy token
+        const token = localStorage.getItem("auth_token"); 
+
+        if (!token) {
+            setError("Please login to view purchase history.");
+            setLoading(false);
+            return;
+        }
+
+        const PORT = 8080 // port server
+        const response = await fetch(`http://localhost:${PORT}/api/orders/my-orders`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, // token xác thực
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Can not load order history");
+        }
+
+        const data = await response.json(); // đợi data từ server (json)
+        
+        setOrders(data); 
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
+  // Hàm format tiền tệ (VND)
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(amount);
+  };
+
+  // Hàm format ngày tháng
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString("vi-VN");
+  };
+
+  // lọc đơn hàng
+  const filteredOrders =
+    filter === "all"
+      ? orders
+      : orders.filter((order) => 
+          (order.status || "").toLowerCase() === filter.toLowerCase()
+        );
+
+  // --- RENDER GIAO DIỆN UI
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="error-text">Lỗi: {error}</p>;
+
   return (
-    <div>
-      <h2 className="fw-bold mb-4 pb-2 border-bottom" style={{ color: "#81c408" }}>My Orders</h2>
-      
-      {/* Placeholder Content */}
-      <div className="text-center py-5 text-muted">
-        <i className="fas fa-box-open fa-4x mb-3 text-secondary opacity-50"></i>
-        <h4>No orders yet</h4>
-        <p>You haven't placed any orders yet. Go to the shop and find something you like!</p>
-        <a href="/shop" className="btn text-white mt-2" style={{ backgroundColor: "#81c408" }}>
-            Go to Shop
-        </a>
+    <section className="section">
+      <h2>Order history</h2>
+
+      {/* Bộ lọc trạng thái */}
+      <div className="order-filters">
+        {["all", "processing", "delivered", "canceled"].map((status) => (
+          <button
+            key={status}
+            className={`filter-btn ${filter === status ? "active" : ""}`}
+            onClick={() => setFilter(status)}
+          >
+            {status === "all" ? "All" : status.charAt(0).toUpperCase() + status.slice(1)}
+          </button>
+        ))}
       </div>
 
-      {/* Example Table Structure (Hidden when empty) */}
-      {/* <div className="table-responsive">
-        <table className="table table-hover align-middle">
-            <thead className="table-light">
-                <tr>
-                    <th>Order ID</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                    <th>Total</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>#ORD-001</td>
-                    <td>Dec 12, 2025</td>
-                    <td><span className="badge bg-success">Completed</span></td>
-                    <td>$120.00</td>
-                    <td><button className="btn btn-sm btn-outline-primary">View</button></td>
-                </tr>
-            </tbody>
-        </table>
+      {/* Danh sách đơn hàng */}
+      <div className="order-list">
+        {filteredOrders.length > 0 ? (
+          filteredOrders.map((order) => (
+            <div key={order._id} className={`order-card ${order.status ? order.status.toLowerCase() : ''}`}>
+              <div className="order-header">
+                {/* Hiển thị 6 ký tự cuối của ID */}
+                <span>Order Id: #{order._id ? order._id.slice(-6).toUpperCase() : 'N/A'}</span>
+                
+                <span className={`status ${order.status ? order.status.toLowerCase() : ''}`}>
+                   {order.status || "Chưa cập nhật"}
+                </span>
+              </div>
+
+              <div className="order-body">
+                <p>
+                  <b>Order date:</b> {formatDate(order.createdAt)}
+                </p>
+                <p>
+                  <b>Total Amount:</b> <span className="price">{formatCurrency(order.totalPrice)}</span>
+                </p>
+                <p>
+                  <b>Address:</b> {order.shippingAddress}
+                </p>
+                <p>
+                    <b>Product:</b> {order.orderItems?.length || 0} 
+                </p>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="no-orders">No order was found.</p>
+        )}
       </div>
-      */}
-    </div>
+    </section>
   );
 };
 

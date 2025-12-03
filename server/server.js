@@ -8,12 +8,13 @@ const customerRoutes = require('./src/routes/customer.routes');
 const passport = require('./src/config/passport.config');
 const orderRoutes = require('./src/routes/order.routes')
 const productRoutes = require('./src/routes/product.routes')
+const cors = require('cors');
 
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-
+app.use(cors())
 connectDB();
 
 app.use(session({
