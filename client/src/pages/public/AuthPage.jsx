@@ -360,7 +360,7 @@ const AuthPage = () => {
                         <h1>Login</h1>
                         <div className="social-container">
                             <a
-                                href="http://localhost:3000/api/auth/google"
+                                href="http://localhost:8080/api/auth/google"
                                 className="social"
                                 title="Login with Google"
                             >

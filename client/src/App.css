@@ -120,3 +120,14 @@
     background: var(--bs-secondary);
     color: var(--bs-white);
 }
+
+.product-card-fixed {
+  height: 420px; /* bạn đổi tùy ý */
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-fixed .fruite-img img {
+  height: 180px;   /* hoặc auto + object-fit */
+  object-fit: cover;
+}
