@@ -32,10 +32,8 @@ const orderSchema = new Schema({
 
     // Địa chỉ giao hàng (Lưu cứng, không tham chiếu)
     shippingAddress: {
-        fullName: { type: String, required: true },
-        phone: { type: String, required: true },
-        address: { type: String, required: true }, 
-        city: { type: String, required: true }
+        type: String,
+        required: true
     },
 
     // Phương thức thanh toán
