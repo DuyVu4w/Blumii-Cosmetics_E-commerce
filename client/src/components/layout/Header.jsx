@@ -103,9 +103,7 @@ const Header = () => {
               <NavLink to="/shop" className={getNavLinkClass}>
                 Shop
               </NavLink>
-              <NavLink to="/shop-detail" className={getNavLinkClass}>
-                Shop Detail
-              </NavLink>
+
               <div className="nav-item dropdown">
                 {/* Sử dụng <a> cho dropdown toggle (vì Bootstrap JS gốc có thể vẫn xử lý nó)
                                     Hoặc chúng ta có thể thêm logic state riêng cho dropdown */}
@@ -115,20 +113,23 @@ const Header = () => {
                   role="button"
                   data-bs-toggle="dropdown"
                 >
-                  Pages
+                  Brand
                 </a>
                 <div className="dropdown-menu m-0 bg-secondary rounded-0">
                   <Link to="/cart" className="dropdown-item">
-                    Cart
+                    Romand
                   </Link>
                   <Link to="/checkout" className="dropdown-item">
-                    Checkout
+                    3CE
                   </Link>
                   <Link to="/testimonial" className="dropdown-item">
-                    Testimonial
+                    Torriden
                   </Link>
                   <Link to="/404" className="dropdown-item">
-                    404 Page
+                    Maybelline
+                  </Link>
+                  <Link to="/404" className="dropdown-item">
+                    Innisfree
                   </Link>
                 </div>
               </div>
