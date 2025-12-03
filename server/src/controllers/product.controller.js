@@ -41,7 +41,7 @@ exports.createProduct = async (req, res) => {
             mainPurpose,
             expirationDate,
             description,
-            image, //  mảng các đường link ảnh (Array Strings)
+            image,
             price,
             marketPrice,
             countInStock
@@ -62,7 +62,3 @@ exports.createProduct = async (req, res) => {
         });
     }
 };
-
-// module.exports = {
-//     createProduct
-// };
