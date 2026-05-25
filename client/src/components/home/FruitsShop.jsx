@@ -96,7 +96,7 @@ const FruitsShop = () => {
                             name={product.name}
                             description={product.description}
                             // Format giá từ số sang chuỗi có dấu chấm và đ
-                            price={`${formatPrice(product.price)}₫`}
+                            price={`${formatPrice(product.price)}đ`}
                           />
                         </div>
                       ))
